@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.battlesprite.animation.gui;
 
+import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimationFrame;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
@@ -19,19 +20,23 @@ import javax.swing.table.TableModel;
 public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     
     private final String[][] tableData;
-    private final String[] columns = {"Frame number", "1", "2'", "3'"};
+    private final String[] columns = {"Index", "Duration", "X", "Y", "Weapon Frame", "Z", "Weapon X", "Weapon Y"};
  
-    public BattleSpriteAnimationFramesTableModel(int[][] altTiles) {
+    public BattleSpriteAnimationFramesTableModel(BattleSpriteAnimationFrame[] frames) {
         super();
-        tableData = new String[64][];
+        tableData = new String[16][];
         int i = 0;
-        if(altTiles!=null){
-            while(i<altTiles.length){
-                tableData[i] = new String[4];
-                tableData[i][0] = Integer.toString(altTiles[i][0]);
-                tableData[i][1] = Integer.toString(altTiles[i][1]);
-                tableData[i][2] = Integer.toString(altTiles[i][2]);
-                tableData[i][3] = Integer.toString(altTiles[i][3]);
+        if(frames!=null){
+            while(i<frames.length){
+                tableData[i] = new String[8];
+                tableData[i][0] = Integer.toString(frames[i].getIndex());
+                tableData[i][1] = Integer.toString(frames[i].getDuration());
+                tableData[i][2] = Integer.toString(frames[i].getX());
+                tableData[i][3] = Integer.toString(frames[i].getY());
+                tableData[i][4] = Integer.toString(frames[i].getWeaponFrame());
+                tableData[i][5] = Integer.toString(frames[i].getWeaponZ());
+                tableData[i][6] = Integer.toString(frames[i].getWeaponX());
+                tableData[i][7] = Integer.toString(frames[i].getWeaponY());
                 i++;
             }
         }
@@ -41,6 +46,10 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
             tableData[i][1] = "null";
             tableData[i][2] = "null";
             tableData[i][3] = "null";
+            tableData[i][4] = "null";
+            tableData[i][5] = "null";
+            tableData[i][6] = "null";
+            tableData[i][7] = "null";
             i++;
         }
     }
@@ -72,24 +81,6 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         return columns[columnIndex];
-    }
- 
-    public int[][] produceTiles(){
-        List<int[]> entries = new ArrayList<>();
-        for(String[] stringEntry : tableData){
-            try{
-                int[] intEntry = new int[4];
-                intEntry[0] = Integer.parseInt(stringEntry[0]);
-                intEntry[1] = Integer.parseInt(stringEntry[1]);
-                intEntry[2] = Integer.parseInt(stringEntry[2]);
-                intEntry[3] = Integer.parseInt(stringEntry[3]);
-                entries.add(intEntry);
-            }catch(Exception e){
-                break;
-            }
-        }
-        int[][] returnedEntries = new int[entries.size()][4];
-        return entries.toArray(returnedEntries);
     }
     
 }

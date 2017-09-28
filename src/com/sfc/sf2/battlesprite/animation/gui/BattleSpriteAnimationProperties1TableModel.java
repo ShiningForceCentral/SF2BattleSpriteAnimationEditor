@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.battlesprite.animation.gui;
 
+import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
@@ -16,24 +17,25 @@ import javax.swing.table.TableModel;
  *
  * @author wiz
  */
-public class BattleSpriteAnimationPropertiesTableModel extends AbstractTableModel {
+public class BattleSpriteAnimationProperties1TableModel extends AbstractTableModel {
     
     private final String[][] tableData;
-    private final String[] columns = {"Index", "Duration", "X", "Y", "Weapon Frame", "Z", "Weapon X", "Weapon Y"};
+    private final String[] columns = {"Frame Number", "Spell Init Frame", "Spell Anim", "End Spell", "Idle 1 Weapon Frame", "Idle 1 Z", "Idle 1 Weapon X", "Idle 1 Weapon Y"};
  
-    public BattleSpriteAnimationPropertiesTableModel(int[][] altTiles) {
+    public BattleSpriteAnimationProperties1TableModel(BattleSpriteAnimation animation) {
         super();
-        tableData = new String[64][];
+        tableData = new String[1][];
         int i = 0;
-        if(altTiles!=null){
-            while(i<altTiles.length){
-                tableData[i] = new String[4];
-                tableData[i][0] = Integer.toString(altTiles[i][0]);
-                tableData[i][1] = Integer.toString(altTiles[i][1]);
-                tableData[i][2] = Integer.toString(altTiles[i][2]);
-                tableData[i][3] = Integer.toString(altTiles[i][3]);
-                i++;
-            }
+        if(animation!=null){
+            tableData[i] = new String[4];
+            tableData[i][0] = Integer.toString(animation.getFrameNumber());
+            tableData[i][1] = Integer.toString(animation.getSpellInitFrame());
+            tableData[i][2] = Integer.toString(animation.getSpellAnim());
+            tableData[i][3] = Integer.toString(animation.getEndSpellAnim());
+            tableData[i][4] = Integer.toString(animation.getIdle1WeaponFrame());
+            tableData[i][5] = Integer.toString(animation.getIdle1WeaponZ());
+            tableData[i][6] = Integer.toString(animation.getIdle1WeaponX());
+            tableData[i][7] = Integer.toString(animation.getIdle1WeaponY());
         }
         while(i<tableData.length){
             tableData[i] = new String[4];
@@ -41,6 +43,10 @@ public class BattleSpriteAnimationPropertiesTableModel extends AbstractTableMode
             tableData[i][1] = "null";
             tableData[i][2] = "null";
             tableData[i][3] = "null";
+            tableData[i][4] = "null";
+            tableData[i][5] = "null";
+            tableData[i][6] = "null";
+            tableData[i][7] = "null";
             i++;
         }
     }
@@ -72,24 +78,6 @@ public class BattleSpriteAnimationPropertiesTableModel extends AbstractTableMode
     @Override
     public String getColumnName(int columnIndex) {
         return columns[columnIndex];
-    }
- 
-    public int[][] produceTiles(){
-        List<int[]> entries = new ArrayList<>();
-        for(String[] stringEntry : tableData){
-            try{
-                int[] intEntry = new int[4];
-                intEntry[0] = Integer.parseInt(stringEntry[0]);
-                intEntry[1] = Integer.parseInt(stringEntry[1]);
-                intEntry[2] = Integer.parseInt(stringEntry[2]);
-                intEntry[3] = Integer.parseInt(stringEntry[3]);
-                entries.add(intEntry);
-            }catch(Exception e){
-                break;
-            }
-        }
-        int[][] returnedEntries = new int[entries.size()][4];
-        return entries.toArray(returnedEntries);
     }
     
 }

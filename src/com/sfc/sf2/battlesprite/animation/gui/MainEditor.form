@@ -15,7 +15,7 @@
     <Property name="title" type="java.lang.String" value="SF2BattleSpriteAnimationManager"/>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,38,0,0,4,16"/>
+    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,38,0,0,3,-88"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
@@ -165,14 +165,13 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPanel1" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -190,12 +189,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane2" alignment="0" pref="225" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" alignment="0" pref="179" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -251,7 +250,7 @@
                                           <Component id="jComboBox3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="213" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -354,12 +353,18 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane3" alignment="0" pref="504" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="400" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane5" pref="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane3" alignment="0" pref="43" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jScrollPane3" min="-2" pref="46" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jScrollPane5" pref="48" max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -371,7 +376,7 @@
                                 <Component class="javax.swing.JTable" name="jTable1">
                                   <Properties>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                      <Table columnCount="16" rowCount="1">
+                                      <Table columnCount="8" rowCount="1">
                                         <Column editable="true" title="Frame Number" type="java.lang.String"/>
                                         <Column editable="true" title="Spell init frame" type="java.lang.String"/>
                                         <Column editable="true" title="Byte 2" type="java.lang.String"/>
@@ -380,6 +385,20 @@
                                         <Column editable="true" title="Idle Z 1" type="java.lang.Object"/>
                                         <Column editable="true" title="Idle Weapon X 1" type="java.lang.Object"/>
                                         <Column editable="true" title="Idle Weapon Y 1" type="java.lang.Object"/>
+                                      </Table>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                              </SubComponents>
+                            </Container>
+                            <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                              <SubComponents>
+                                <Component class="javax.swing.JTable" name="jTable3">
+                                  <Properties>
+                                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                      <Table columnCount="8" rowCount="1">
                                         <Column editable="true" title="Byte 8" type="java.lang.Object"/>
                                         <Column editable="true" title="Byte 9" type="java.lang.Object"/>
                                         <Column editable="true" title="Byte 10" type="java.lang.Object"/>
@@ -461,10 +480,10 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jPanel3" min="-2" pref="289" max="-2" attributes="0"/>
+                                  <Component id="jPanel3" min="-2" pref="320" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel5" min="-2" pref="84" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanel5" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <EmptySpace pref="97" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -604,7 +623,7 @@
                                           <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jButton25" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="37" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Component id="jButton18" min="-2" max="-2" attributes="0"/>
@@ -624,7 +643,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField9">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cbackgrounds\u005cbackground00.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField9ActionPerformed"/>
@@ -658,7 +677,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField10">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cplt_battlescenebasepalette.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField10ActionPerformed"/>
@@ -679,7 +698,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField12">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cgrounds\u005cgroundpalette00.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField12ActionPerformed"/>
@@ -700,7 +719,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField14">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cgrounds\u005cgroundtiles00.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField14ActionPerformed"/>
@@ -721,7 +740,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField16">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cbattlesprites\u005callies\u005callybattlesprite00.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField16ActionPerformed"/>
@@ -742,7 +761,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField17">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cweapons\u005cweaponpalettes.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField17ActionPerformed"/>
@@ -763,7 +782,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField18">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cweapons\u005cweaponsprite00.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField18ActionPerformed"/>
@@ -784,7 +803,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField19">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005callybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cbattlesprites\u005callies\u005canimations\u005callybattlespriteanimation000.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField19ActionPerformed"/>
@@ -848,6 +867,7 @@
                                           <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace pref="27" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -860,7 +880,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField13">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value=".\u005callies\u005cnewallybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
+                                <Property name="text" type="java.lang.String" value="D:\u005cSEGADEV\u005cGITHUB\u005cSF2DISASM\u005cdisasm\u005cdata\u005cgraphics\u005cbattles\u005cbattlesprites\u005callies\u005canimations\u005cnewallybattlespriteanimation01.bin" containsInvalidXMLChars="true"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField13ActionPerformed"/>
