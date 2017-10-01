@@ -41,7 +41,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
             }
         }
         while(i<tableData.length){
-            tableData[i] = new String[4];
+            tableData[i] = new String[8];
             tableData[i][0] = "null";
             tableData[i][1] = "null";
             tableData[i][2] = "null";

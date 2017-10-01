@@ -9,6 +9,7 @@ import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
+import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimationFrame;
 import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.palette.graphics.PaletteDecoder;
@@ -39,44 +40,43 @@ public class DisassemblyManager {
             Path path = Paths.get(filepath);
             if(path.toFile().exists()){
                 byte[] data = Files.readAllBytes(path);
-                if(data.length>42){
-                    short animSpeed = getNextWord(data,0);
-                    short unknown = getNextWord(data,2);
-                    battlespriteanimation.setAnimSpeed(animSpeed);
-                    battlespriteanimation.setUnknown(unknown);
-                    int palettesOffset = 4 + getNextWord(data,4);
-                    int firstFrameOffset = 6 + getNextWord(data,6);
-                    List<Color[]> paletteList = new ArrayList<Color[]>();
-                    for(int i=0;(palettesOffset+32*i)<firstFrameOffset;i++){
-                        byte[] paletteData = new byte[32];
-                        System.arraycopy(data, palettesOffset+i*32, paletteData, 0, paletteData.length);
-                        Color[] palette = PaletteDecoder.parsePalette(paletteData);
-                        palette[0] = new Color(255, 255, 255, 0);
-                        paletteList.add(palette);
-                    }
-                    battlespriteanimation.setPalettes(paletteList.toArray(new Color[paletteList.size()][]));
-                    List<Tile[]> frameList = new ArrayList<Tile[]>();
-                    for(int i=0;(6+i*2)<palettesOffset;i++){
-                        int frameOffset = 6+i*2 + getNextWord(data,6+i*2);
-                        int dataLength = 0;
-                        if((6+(i+1)*2)<palettesOffset){
-                            dataLength = 6+i*2 + getNextWord(data,6+(i+1)*2)+2 - frameOffset;
-                        }else{
-                            dataLength = data.length - frameOffset;
-                        }
-                        byte[] tileData = new byte[dataLength];
-                        System.arraycopy(data, frameOffset, tileData, 0, dataLength);
-                        Tile[] frame = new StackGraphicsDecoder().decodeStackGraphics(tileData, paletteList.get(0));
-                        frameList.add(frame);
-                        System.out.println("Frame "+i+" length="+dataLength+", offset="+frameOffset+", tiles="+frame.length);
-                    }
-                    battlespriteanimation.setFrames(frameList.toArray(new Tile[frameList.size()][]));
-                    if(battlespriteanimation.getFrames()[0].length>144){
-                        battlespriteanimation.setType(BattleSpriteAnimation.TYPE_ENEMY);
-                    }
-                }else{
-                    System.out.println("com.sfc.sf2.battlespriteanimation.io.DisassemblyManager.parseGraphics() - File ignored because of too small length (must be a dummy file) " + data.length + " : " + filepath);
+                
+                battlespriteanimation.setFrameNumber(getNextByte(data,0));
+                battlespriteanimation.setSpellInitFrame(getNextByte(data,1));
+                battlespriteanimation.setSpellAnim(getNextByte(data,2));
+                battlespriteanimation.setEndSpellAnim(getNextByte(data,3));
+                battlespriteanimation.setIdle1WeaponFrame(getNextByte(data,4));
+                battlespriteanimation.setIdle1WeaponZ(getNextByte(data,5));
+                battlespriteanimation.setIdle1WeaponX(getNextByte(data,6));
+                battlespriteanimation.setIdle1WeaponY(getNextByte(data,7));
+                battlespriteanimation.setByte8(getNextByte(data,8));
+                battlespriteanimation.setByte9(getNextByte(data,9));
+                battlespriteanimation.setByte10(getNextByte(data,10));
+                battlespriteanimation.setByte11(getNextByte(data,11));
+                battlespriteanimation.setIdle2WeaponFrame(getNextByte(data,12));
+                battlespriteanimation.setIdle2WeaponZ(getNextByte(data,13));
+                battlespriteanimation.setIdle2WeaponX(getNextByte(data,14));
+                battlespriteanimation.setIdle2WeaponY(getNextByte(data,15));
+                
+                BattleSpriteAnimationFrame[] frames = new BattleSpriteAnimationFrame[battlespriteanimation.getFrameNumber()-1];
+                
+                for(int i=0;i<frames.length;i++){
+                    BattleSpriteAnimationFrame frame = new BattleSpriteAnimationFrame();
+                    
+                    frame.setIndex(getNextByte(data,16+i*8+0));
+                    frame.setDuration(getNextByte(data,16+i*8+1));
+                    frame.setX(getNextByte(data,16+i*8+2));
+                    frame.setY(getNextByte(data,16+i*8+3));
+                    frame.setWeaponFrame(getNextByte(data,16+i*8+4));
+                    frame.setWeaponZ(getNextByte(data,16+i*8+5));
+                    frame.setWeaponX(getNextByte(data,16+i*8+6));
+                    frame.setWeaponY(getNextByte(data,16+i*8+7));
+                    
+                    frames[i] = frame;
                 }
+                
+                battlespriteanimation.setFrames(frames);
+                
             }            
         }catch(Exception e){
              System.err.println("com.sfc.sf2.battlespriteanimation.io.DisassemblyManager.parseGraphics() - Error while parsing graphics data : "+e);
@@ -89,8 +89,7 @@ public class DisassemblyManager {
     public static void exportDisassembly(BattleSpriteAnimation battlespriteanimation, String filepath){
         System.out.println("com.sfc.sf2.battlespriteanimation.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
         try{
-            
-            
+            /*
                 short animSpeed = (short)(battlespriteanimation.getAnimSpeed()&0xFFFF);
                 short unknown = battlespriteanimation.getUnknown();
                 
@@ -148,7 +147,8 @@ public class DisassemblyManager {
                 }
                 Path graphicsFilePath = Paths.get(filepath);
                 Files.write(graphicsFilePath,newBattleSpriteAnimationFileBytes);
-                System.out.println(newBattleSpriteAnimationFileBytes.length + " bytes into " + graphicsFilePath);                
+                System.out.println(newBattleSpriteAnimationFileBytes.length + " bytes into " + graphicsFilePath);   
+*/
         } catch (Exception ex) {
             Logger.getLogger(DisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();

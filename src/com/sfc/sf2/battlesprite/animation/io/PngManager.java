@@ -35,49 +35,6 @@ import javax.imageio.ImageIO;
  */
 public class PngManager {
     
-    public static BattleSpriteAnimation importPng(String filepath, BattleSpriteAnimation BattleSpriteAnimation, boolean usePngPalette){
-        System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.importPng() - Importing PNG files ...");
-        BattleSpriteAnimation battlespriteanimation = new BattleSpriteAnimation();
-        try{
-            List<Tile[]> frames = new ArrayList<Tile[]>();
-            List<Color[]> palettes = new ArrayList<Color[]>();
-            String dir = filepath.substring(0, filepath.lastIndexOf(System.getProperty("file.separator")));
-            String pattern = filepath.substring(filepath.lastIndexOf(System.getProperty("file.separator"))+1);
-            File directory = new File(dir);
-            File[] files = directory.listFiles();
-            for(File f : files){
-                if(f.getName().startsWith(pattern + "-frame")){
-                    Tile[] frame = loadPngFile(f.getAbsolutePath());
-                    frames.add(frame);
-                }else if(f.getName().startsWith(pattern + "-palette")){
-                    byte[] data = Files.readAllBytes(f.toPath());
-                    Color[] palette = PaletteDecoder.parsePalette(data);
-                    palettes.add(palette);
-                }
-            }
-            if(frames.isEmpty()){
-                System.err.println("com.sfc.sf2.battlespriteanimation.io.PngManager.importPng() - ERROR : no frame imported. PNG files missing for this pattern ?");
-            } else{
-                System.err.println("com.sfc.sf2.battlespriteanimation.io.PngManager.importPng() - " + frames.size() + " : " + frames);
-                if(frames.get(0).length>144){
-                    battlespriteanimation.setType(BattleSpriteAnimation.TYPE_ENEMY);
-                }
-                if(usePngPalette || palettes.isEmpty()){
-                    palettes.add(0, frames.get(0)[0].getPalette());
-                }
-                battlespriteanimation.setFrames(frames.toArray(new Tile[frames.size()][]));
-                battlespriteanimation.setPalettes(palettes.toArray(new Color[palettes.size()][]));
-            }
-        }catch(Exception e){
-             System.err.println("com.sfc.sf2.battlespriteanimation.io.PngManager.importPng() - Error while parsing graphics data : "+e);
-             e.printStackTrace();
-        }        
-        System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.importPng() - PNG files imported.");
-        return battlespriteanimation;                
-    }
-    
-    
-    
     public static Tile[] loadPngFile(String filepath) throws IOException{
         Tile[] tiles = null;
         try{
@@ -159,7 +116,7 @@ public class PngManager {
     public static void exportPng(BattleSpriteAnimation battlespriteanimation, String filepath, int selectedPalette){
         try {
             System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.exportPng() - Exporting PNG files and palettes ...");
-            Tile[][] frames = battlespriteanimation.getFrames();
+/*            Tile[][] frames = battlespriteanimation.getFrames();
             for(int i=0;i<frames.length;i++){
                 String framePath = filepath + "-frame-" + String.valueOf(i) + ".png";
                 writePngFile(frames[i],battlespriteanimation.getType(),framePath); 
@@ -172,7 +129,7 @@ public class PngManager {
                 Path graphicsFilePath = Paths.get(palettePath);
                 Files.write(graphicsFilePath,palette);
             }
-                           
+*/                           
             System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.exportPng() - PNG files and palettes exported.");
         } catch (Exception ex) {
             Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,7 +139,8 @@ public class PngManager {
     public static void writePngFile(Tile[] tiles, int battlespriteanimationType, String filepath){
         try {
             System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.exportPng() - Exporting PNG file ...");
-            BufferedImage image = BattleSpriteAnimationLayout.buildImage(tiles, 12, battlespriteanimationType, true);
+            BattleSpriteAnimationLayout battleSpriteAnimationLayout = new BattleSpriteAnimationLayout();
+            BufferedImage image = battleSpriteAnimationLayout.buildImage(true);
             File outputfile = new File(filepath);
             System.out.println("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "png", outputfile);

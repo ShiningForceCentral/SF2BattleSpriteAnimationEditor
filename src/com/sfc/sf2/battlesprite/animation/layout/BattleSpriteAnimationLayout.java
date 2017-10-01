@@ -5,8 +5,16 @@
  */
 package com.sfc.sf2.battlesprite.animation.layout;
 
+import com.sfc.sf2.background.Background;
+import com.sfc.sf2.background.layout.BackgroundLayout;
+import com.sfc.sf2.battlesprite.BattleSprite;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
+import com.sfc.sf2.battlesprite.layout.BattleSpriteLayout;
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.ground.Ground;
+import com.sfc.sf2.ground.layout.GroundLayout;
+import com.sfc.sf2.weaponsprite.WeaponSprite;
+import com.sfc.sf2.weaponsprite.layout.WeaponSpriteLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,12 +31,26 @@ public class BattleSpriteAnimationLayout extends JPanel {
     private static final int ALLY_TILES_PER_ROW = 12;
     private static final int ENEMY_TILES_PER_ROW = 16;
     
-    private static final int DEFAULT_TILES_PER_ROW = ALLY_TILES_PER_ROW;
+    private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
     
     private int battlespriteanimationType;
-    private Tile[] tiles;
+    
+    private BackgroundLayout backgroundLayout = new BackgroundLayout();
+    private GroundLayout groundLayout = new GroundLayout();
+    private BattleSpriteLayout battlespriteLayout = new BattleSpriteLayout();
+    private WeaponSpriteLayout weaponspriteLayout = new WeaponSpriteLayout();
+    
+    private Tile[] backgroundTiles;
+    private Tile[] groundTiles;
+    private Tile[] battlespriteTiles;
+    private Tile[] weaponTiles;
+    
+    private BufferedImage backgroundImage = null;
+    private BufferedImage groundImage = null;
+    private BufferedImage battlespriteImage = null;
+    private BufferedImage weaponspriteImage = null;
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -37,74 +59,35 @@ public class BattleSpriteAnimationLayout extends JPanel {
     }
     
     public BufferedImage buildImage(){
-        BufferedImage image = buildImage(this.tiles,this.tilesPerRow, battlespriteanimationType, false);
+        BufferedImage image = buildImage(false);
         setSize(image.getWidth(), image.getHeight());
         return image;
     }
     
-    public static BufferedImage buildImage(Tile[] tiles, int tilesPerRow, int battlespriteanimationType, boolean pngExport){
+    public BufferedImage buildImage(boolean pngExport){
         
-        int blockColumnsNumber = 3;
-        if(battlespriteanimationType==BattleSpriteAnimation.TYPE_ENEMY){
-            tilesPerRow = ENEMY_TILES_PER_ROW;
-            blockColumnsNumber = 4;
-        }
         
-        int imageHeight = (tiles.length/tilesPerRow)*8;
-        if(tiles.length%tilesPerRow!=0){
-            imageHeight+=8;
-        }
-        BufferedImage image;
-        IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-        image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
-        Graphics graphics = image.getGraphics();     
-        for(int frame=0;frame<(tiles.length/(blockColumnsNumber*4*12));frame++){         
-            /*
-                1  5  9 13 49 53                  
-                2  6 10 14 50  .                  
-                3  7 11 15 51  .                  
-                4  8 12 16 52  .                  
-               17 21 25 29  
-               18 22 26 30
-               19 23 27 31
-               20 24 28 32
-               33 37 41 45                  . 141
-               34 38 42 46                  . 142
-               35 39 43 47                  . 143
-               36 40 44 48                140 144
-            */
-            
-                for(int blockColumn=0;blockColumn<blockColumnsNumber;blockColumn++){
-                    for(int blockLine=0;blockLine<3;blockLine++){
-                        for(int tileColumn=0;tileColumn<4;tileColumn++){
-                            for(int tileLine=0;tileLine<4;tileLine++){
-                                graphics.drawImage(tiles[(frame*blockColumnsNumber*4*12)+(blockColumn*16*3)+(blockLine*16)+(tileColumn*4)+tileLine].getImage(), (blockColumn*4+tileColumn)*8, (frame*12+blockLine*4+tileLine)*8, null);
-                            }
-                        }
-                    }
-                }
-        }            
+        
+        BufferedImage image = new BufferedImage(256, 224 , BufferedImage.TYPE_INT_RGB);
+        
+        backgroundLayout.setTiles(backgroundTiles);
+        groundLayout.setTiles(groundTiles);
+        battlespriteLayout.setTiles(battlespriteTiles);
+        weaponspriteLayout.setTiles(weaponTiles);
+        
+        backgroundImage = backgroundLayout.buildImage();
+        groundImage = groundLayout.buildImage();
+        battlespriteImage = battlespriteLayout.buildImage();
+        weaponspriteImage = weaponspriteLayout.buildImage();
+        
+        Graphics g = image.getGraphics();
+        g.drawImage(backgroundImage, 0, 64, null);
+        g.drawImage(groundImage, 128, 64, null);
+        g.drawImage(battlespriteImage, 128, 64, null);
+        g.drawImage(weaponspriteImage, 128, 64, null);
+          
         return image;
-    }
-    
-    private static IndexColorModel buildIndexColorModel(Color[] colors){
-        byte[] reds = new byte[16];
-        byte[] greens = new byte[16];
-        byte[] blues = new byte[16];
-        byte[] alphas = new byte[16];
-        reds[0] = (byte)0xFF;
-        greens[0] = (byte)0xFF;
-        blues[0] = (byte)0xFF;
-        alphas[0] = 0;
-        for(int i=1;i<16;i++){
-            reds[i] = (byte)colors[i].getRed();
-            greens[i] = (byte)colors[i].getGreen();
-            blues[i] = (byte)colors[i].getBlue();
-            alphas[i] = (byte)0xFF;
-        }
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
-        return icm;
-    }     
+    }  
     
     @Override
     public Dimension getPreferredSize() {
@@ -118,14 +101,6 @@ public class BattleSpriteAnimationLayout extends JPanel {
     public void setBattleSpriteAnimationType(int battlespriteanimationType) {
         this.battlespriteanimationType = battlespriteanimationType;
     }
-
-    public Tile[] getTiles() {
-        return tiles;
-    }
-
-    public void setTiles(Tile[] tiles) {
-        this.tiles = tiles;
-    }
     
     public int getTilesPerRow() {
         return tilesPerRow;
@@ -134,5 +109,46 @@ public class BattleSpriteAnimationLayout extends JPanel {
     public void setTilesPerRow(int tilesPerRow) {
         this.tilesPerRow = tilesPerRow;
     }
+
+    public int getBattlespriteanimationType() {
+        return battlespriteanimationType;
+    }
+
+    public void setBattlespriteanimationType(int battlespriteanimationType) {
+        this.battlespriteanimationType = battlespriteanimationType;
+    }
+
+    public Tile[] getBackgroundTiles() {
+        return backgroundTiles;
+    }
+
+    public void setBackgroundTiles(Tile[] backgroundTiles) {
+        this.backgroundTiles = backgroundTiles;
+    }
+
+    public Tile[] getGroundTiles() {
+        return groundTiles;
+    }
+
+    public void setGroundTiles(Tile[] groundTiles) {
+        this.groundTiles = groundTiles;
+    }
+
+    public Tile[] getBattlespriteTiles() {
+        return battlespriteTiles;
+    }
+
+    public void setBattlespriteTiles(Tile[] battlespriteTiles) {
+        this.battlespriteTiles = battlespriteTiles;
+    }
+
+    public Tile[] getWeaponTiles() {
+        return weaponTiles;
+    }
+
+    public void setWeaponTiles(Tile[] weaponTiles) {
+        this.weaponTiles = weaponTiles;
+    }
+    
     
 }

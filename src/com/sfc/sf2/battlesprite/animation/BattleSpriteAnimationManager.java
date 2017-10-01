@@ -26,20 +26,15 @@ public class BattleSpriteAnimationManager {
     private GroundManager groundManager = new GroundManager();
     private BattleSpriteManager battlespriteManager = new BattleSpriteManager();
     private WeaponSpriteManager weaponspriteManager = new WeaponSpriteManager();
-    
     private BattleSpriteAnimation battlespriteanimation = new BattleSpriteAnimation();
        
     public void importDisassembly(String backgroundPath, String groundBasePalettePath, String groundPalettePath, String groundPath, String battlespritePath, String weaponPalettesPath, String weaponPath, String animationPath){
         System.out.println("com.sfc.sf2.battlespriteanimation.BattleSpriteAnimationManager.importDisassembly() - Importing disassembly ...");
-        backgroundManager.importDisassembly(backgroundPath);
+        backgroundManager.importSingleDisassembly(backgroundPath);
         groundManager.importDisassembly(groundBasePalettePath, groundPalettePath, groundPath);
         battlespriteManager.importDisassembly(battlespritePath);
         weaponspriteManager.importDisassembly(weaponPalettesPath, weaponPath);
-        
-        
-        
         battlespriteanimation = DisassemblyManager.importDisassembly(animationPath);
-
         System.out.println("com.sfc.sf2.battlespriteanimation.BattleSpriteAnimationManager.importDisassembly() - Disassembly imported.");
     }
     

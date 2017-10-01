@@ -27,7 +27,7 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
         tableData = new String[1][];
         int i = 0;
         if(animation!=null){
-            tableData[i] = new String[4];
+            tableData[i] = new String[8];
             tableData[i][0] = Integer.toString(animation.getByte8());
             tableData[i][1] = Integer.toString(animation.getByte9());
             tableData[i][2] = Integer.toString(animation.getByte10());
@@ -36,18 +36,6 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
             tableData[i][5] = Integer.toString(animation.getIdle2WeaponZ());
             tableData[i][6] = Integer.toString(animation.getIdle2WeaponX());
             tableData[i][7] = Integer.toString(animation.getIdle2WeaponY());
-        }
-        while(i<tableData.length){
-            tableData[i] = new String[4];
-            tableData[i][0] = "null";
-            tableData[i][1] = "null";
-            tableData[i][2] = "null";
-            tableData[i][3] = "null";
-            tableData[i][4] = "null";
-            tableData[i][5] = "null";
-            tableData[i][6] = "null";
-            tableData[i][7] = "null";
-            i++;
         }
     }
     
