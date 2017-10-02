@@ -19,36 +19,47 @@ import javax.swing.table.TableModel;
  */
 public class BattleSpriteAnimationProperties1TableModel extends AbstractTableModel {
     
-    private final String[][] tableData;
-    private final String[] columns = {"Frame Number", "Spell Init Frame", "Spell Anim", "End Spell", "Idle 1 Weapon Frame", "Idle 1 Z", "Idle 1 Weapon X", "Idle 1 Weapon Y"};
+    private final Object[][] tableData;
+    private final String[] columns = {"Frame Number", "Spell Init Frame", "Spell Anim", "End Spell", "Idle 1 Weapon Frame", "H Flip", "V Flip", "Idle 1 Z", "Idle 1 Weapon X", "Idle 1 Weapon Y"};
  
     public BattleSpriteAnimationProperties1TableModel(BattleSpriteAnimation animation) {
         super();
-        tableData = new String[1][];
+        tableData = new Object[1][];
         int i = 0;
         if(animation!=null){
-            tableData[i] = new String[8];
+            tableData[i] = new Object[10];
             tableData[i][0] = Integer.toString(animation.getFrameNumber());
             tableData[i][1] = Integer.toString(animation.getSpellInitFrame());
             tableData[i][2] = Integer.toString(animation.getSpellAnim());
-            tableData[i][3] = Integer.toString(animation.getEndSpellAnim());
-            tableData[i][4] = Integer.toString(animation.getIdle1WeaponFrame());
-            tableData[i][5] = Integer.toString(animation.getIdle1WeaponZ());
-            tableData[i][6] = Integer.toString(animation.getIdle1WeaponX());
-            tableData[i][7] = Integer.toString(animation.getIdle1WeaponY());
+            tableData[i][3] = (animation.getEndSpellAnim()!=0);
+            tableData[i][4] = Integer.toString(animation.getIdle1WeaponFrame()&0xF);
+            tableData[i][5] = (animation.getIdle1WeaponFrame()&0x10)!=0;
+            tableData[i][6] = (animation.getIdle1WeaponFrame()&0x20)!=0;
+            tableData[i][7] = Integer.toString(animation.getIdle1WeaponZ());
+            tableData[i][8] = Integer.toString(animation.getIdle1WeaponX());
+            tableData[i][9] = Integer.toString(animation.getIdle1WeaponY());
         }
     }
     
     public void updateProperties(BattleSpriteAnimation animation) {
-                animation.setFrameNumber(Integer.parseInt(tableData[0][0]));
-                animation.setSpellInitFrame(Integer.parseInt(tableData[0][1]));
-                animation.setSpellAnim(Integer.parseInt(tableData[0][2]));
-                animation.setEndSpellAnim(Integer.parseInt(tableData[0][3]));
-                animation.setIdle1WeaponFrame(Integer.parseInt(tableData[0][4]));
-                animation.setIdle1WeaponZ(Integer.parseInt(tableData[0][5]));
-                animation.setIdle1WeaponX(Integer.parseInt(tableData[0][6]));
-                animation.setIdle1WeaponY(Integer.parseInt(tableData[0][7]));
+                animation.setFrameNumber(Integer.parseInt((String)tableData[0][0]));
+                animation.setSpellInitFrame(Integer.parseInt((String)tableData[0][1]));
+                animation.setSpellAnim(Integer.parseInt((String)tableData[0][2]));
+                animation.setEndSpellAnim(((Boolean)tableData[0][3])?-1:0);
+                animation.setIdle1WeaponFrame(Integer.parseInt((String)tableData[0][4]) + (int)(((Boolean)tableData[0][5])?0x10:0) + (int)((Boolean)tableData[0][6]?0x20:0));
+                animation.setIdle1WeaponZ(Integer.parseInt((String)tableData[0][7]));
+                animation.setIdle1WeaponX(Integer.parseInt((String)tableData[0][8]));
+                animation.setIdle1WeaponY(Integer.parseInt((String)tableData[0][9]));
     }
+    
+    @Override
+    public Class getColumnClass(int column) {
+        if(column == 3 ||column == 5 ||column == 6){
+            return Boolean.class;
+        }else {
+            return String.class;
+        }
+    }    
     
     @Override
     public Object getValueAt(int row, int col) {
