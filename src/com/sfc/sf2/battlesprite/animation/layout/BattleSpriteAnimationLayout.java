@@ -18,6 +18,7 @@ import com.sfc.sf2.weaponsprite.layout.WeaponSpriteLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
@@ -33,24 +34,38 @@ public class BattleSpriteAnimationLayout extends JPanel {
     
     private static final int DEFAULT_TILES_PER_ROW = 32;
     
+    private static final int BACKGROUND_BASE_X = 0;
+    private static final int BACKGROUND_BASE_Y = 56;
+    private static final int GROUND_BASE_X = 136;
+    private static final int GROUND_BASE_Y = 140;
+    private static final int BATTLESPRITE_ALLY_BASE_X = 136;
+    private static final int BATTLESPRITE_ALLY_BASE_Y = 64;
+    private static final int BATTLESPRITE_ENEMY_BASE_X = 0;
+    private static final int BATTLESPRITE_ENEMY_BASE_Y = 48;
+    private static final int WEAPONSPRITE_BASE_X = 136;
+    private static final int WEAPONSPRITE_BASE_Y = 64;
+    
     private int tilesPerRow = DEFAULT_TILES_PER_ROW;
     
-    private int battlespriteanimationType;
-    
-    private BackgroundLayout backgroundLayout = new BackgroundLayout();
-    private GroundLayout groundLayout = new GroundLayout();
-    private BattleSpriteLayout battlespriteLayout = new BattleSpriteLayout();
-    private WeaponSpriteLayout weaponspriteLayout = new WeaponSpriteLayout();
-    
-    private Tile[] backgroundTiles;
-    private Tile[] groundTiles;
-    private Tile[] battlespriteTiles;
-    private Tile[] weaponTiles;
+    private Background background;
+    private Ground ground;
+    private BattleSprite battlesprite;
+    private WeaponSprite weaponsprite;
+    private BattleSpriteAnimation animation;
     
     private BufferedImage backgroundImage = null;
     private BufferedImage groundImage = null;
-    private BufferedImage battlespriteImage = null;
-    private BufferedImage weaponspriteImage = null;
+    private BufferedImage[] battlespriteImages = null;
+    private BufferedImage[][] weaponspriteImages = null;
+    
+    private int currentBattlespriteFrame = 0;
+    private int currentWeaponspriteFrame = 0;
+    private int currentWeaponZ = 1;
+    private int currentWeaponX = 0;
+    private int currentWeaponY = 0;
+    private boolean weaponHFlip = false;
+    private boolean weaponVFlip = false;
+    
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -59,32 +74,30 @@ public class BattleSpriteAnimationLayout extends JPanel {
     }
     
     public BufferedImage buildImage(){
-        BufferedImage image = buildImage(false);
+        BufferedImage image = buildImage(false, false);
         setSize(image.getWidth(), image.getHeight());
         return image;
     }
     
-    public BufferedImage buildImage(boolean pngExport){
+    public BufferedImage buildImage(boolean pngExport, boolean battlespriteOnly){
         
-        
-        
-        BufferedImage image = new BufferedImage(256, 224 , BufferedImage.TYPE_INT_RGB);
-        
-        backgroundLayout.setTiles(backgroundTiles);
-        groundLayout.setTiles(groundTiles);
-        battlespriteLayout.setTiles(battlespriteTiles);
-        weaponspriteLayout.setTiles(weaponTiles);
-        
-        backgroundImage = backgroundLayout.buildImage();
-        groundImage = groundLayout.buildImage();
-        battlespriteImage = battlespriteLayout.buildImage();
-        weaponspriteImage = weaponspriteLayout.buildImage();
-        
+        BufferedImage image = new BufferedImage(256, 224, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
-        g.drawImage(backgroundImage, 0, 64, null);
-        g.drawImage(groundImage, 128, 64, null);
-        g.drawImage(battlespriteImage, 128, 64, null);
-        g.drawImage(weaponspriteImage, 128, 64, null);
+        
+        g.drawImage(backgroundImage, BACKGROUND_BASE_X, BACKGROUND_BASE_Y, null);
+        g.drawImage(groundImage, GROUND_BASE_X, GROUND_BASE_Y, null);
+        if(battlesprite.getType()==BattleSprite.TYPE_ENEMY){
+            g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ENEMY_BASE_X, BATTLESPRITE_ENEMY_BASE_Y, null);
+        }else{
+            int weaponFlip = 0 + (weaponHFlip?1:0) + (weaponVFlip?2:0);
+            if(currentWeaponZ==2){
+                g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X, BATTLESPRITE_ALLY_BASE_Y, null);
+                g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentWeaponX, WEAPONSPRITE_BASE_Y+currentWeaponY, null);
+            }else{
+                g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentWeaponX, WEAPONSPRITE_BASE_Y+currentWeaponY, null); 
+                g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X, BATTLESPRITE_ALLY_BASE_Y, null);
+            }
+        }
           
         return image;
     }  
@@ -92,14 +105,6 @@ public class BattleSpriteAnimationLayout extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(getWidth(), getHeight());
-    }
-    
-    public int getBattleSpriteAnimationType() {
-        return battlespriteanimationType;
-    }
-
-    public void setBattleSpriteAnimationType(int battlespriteanimationType) {
-        this.battlespriteanimationType = battlespriteanimationType;
     }
     
     public int getTilesPerRow() {
@@ -110,44 +115,111 @@ public class BattleSpriteAnimationLayout extends JPanel {
         this.tilesPerRow = tilesPerRow;
     }
 
-    public int getBattlespriteanimationType() {
-        return battlespriteanimationType;
+    public void setBackground(Background background) {
+        this.background = background;
+        BackgroundLayout backgroundLayout = new BackgroundLayout();
+        backgroundLayout.setTiles(background.getTiles());
+        backgroundImage = backgroundLayout.buildImage();        
     }
 
-    public void setBattlespriteanimationType(int battlespriteanimationType) {
-        this.battlespriteanimationType = battlespriteanimationType;
+    public void setGround(Ground ground) {
+        this.ground = ground;
+        GroundLayout groundLayout = new GroundLayout();
+        groundLayout.setTiles(ground.getTiles());        
+        groundImage = groundLayout.buildImage();
     }
 
-    public Tile[] getBackgroundTiles() {
-        return backgroundTiles;
+    public void setBattlesprite(BattleSprite battlesprite) {
+        this.battlesprite = battlesprite;
+        BattleSpriteLayout battlespriteLayout = new BattleSpriteLayout();
+        battlespriteImages = new BufferedImage[battlesprite.getFrames().length];
+        for(int i=0;i<battlesprite.getFrames().length;i++){
+            battlespriteLayout.setTiles(battlesprite.getFrames()[i]);
+            battlespriteImages[i] = battlespriteLayout.buildImage();
+        }
     }
 
-    public void setBackgroundTiles(Tile[] backgroundTiles) {
-        this.backgroundTiles = backgroundTiles;
+    public void setWeaponsprite(WeaponSprite weaponsprite) {
+        this.weaponsprite = weaponsprite;
+        WeaponSpriteLayout weaponspriteLayout = new WeaponSpriteLayout();
+        weaponspriteImages = new BufferedImage[4][4];
+        weaponspriteLayout.setTiles(weaponsprite.getTiles());
+        BufferedImage image = weaponspriteLayout.buildImage();
+        for(int i=0;i<4;i++){
+            weaponspriteImages[0][i] = image.getSubimage(0, i*64, 64, 64);
+        }
+        for(int i=0;i<4;i++){
+            weaponspriteImages[1][i] = flipH(weaponspriteImages[0][i]);
+            weaponspriteImages[2][i] = flipV(weaponspriteImages[0][i]);
+            weaponspriteImages[3][i] = flipH(flipV(weaponspriteImages[0][i]));
+        }
+    }
+    
+    private static BufferedImage flipH(BufferedImage image) {
+        BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = newImage.getGraphics();
+        g.drawImage(image, image.getHeight(), 0, -image.getWidth(), image.getHeight(), null);
+        g.dispose();
+        return newImage;
     }
 
-    public Tile[] getGroundTiles() {
-        return groundTiles;
+    private static BufferedImage flipV(BufferedImage image) {
+        BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = newImage.getGraphics();
+        g.drawImage(image, image.getHeight(), 0, image.getWidth(), -image.getHeight(), null);
+        g.dispose();
+        return newImage;
     }
 
-    public void setGroundTiles(Tile[] groundTiles) {
-        this.groundTiles = groundTiles;
+    public void setCurrentBattlespriteFrame(int currentBattlespriteFrame) {
+        this.currentBattlespriteFrame = currentBattlespriteFrame;
     }
 
-    public Tile[] getBattlespriteTiles() {
-        return battlespriteTiles;
+    public void setCurrentWeaponFrame(int currentWeaponFrame) {
+        this.currentWeaponspriteFrame = currentWeaponFrame;
     }
 
-    public void setBattlespriteTiles(Tile[] battlespriteTiles) {
-        this.battlespriteTiles = battlespriteTiles;
+    public void setCurrentWeaponZ(int currentWeaponZ) {
+        this.currentWeaponZ = currentWeaponZ;
     }
 
-    public Tile[] getWeaponTiles() {
-        return weaponTiles;
+    public void setCurrentWeaponX(int currentWeaponX) {
+        this.currentWeaponX = currentWeaponX;
     }
 
-    public void setWeaponTiles(Tile[] weaponTiles) {
-        this.weaponTiles = weaponTiles;
+    public int getCurrentWeaponY() {
+        return currentWeaponY;
+    }
+
+    public void setCurrentWeaponY(int currentWeaponY) {
+        this.currentWeaponY = currentWeaponY;
+    }
+
+    public boolean isWeaponHFlip() {
+        return weaponHFlip;
+    }
+
+    public void setWeaponHFlip(boolean weaponHFlip) {
+        this.weaponHFlip = weaponHFlip;
+    }
+
+    public boolean isWeaponVFlip() {
+        return weaponVFlip;
+    }
+
+    public void setWeaponVFlip(boolean weaponVFlip) {
+        this.weaponVFlip = weaponVFlip;
+    }
+
+    public void setAnimation(BattleSpriteAnimation animation) {
+        this.animation = animation;
+        this.currentBattlespriteFrame = 0;
+        this.currentWeaponspriteFrame = animation.getIdle1WeaponFrame()&0xF;
+        this.currentWeaponZ = animation.getIdle1WeaponZ();
+        this.currentWeaponX = animation.getIdle1WeaponX();
+        this.currentWeaponY = animation.getIdle1WeaponY();
+        this.weaponHFlip = ((animation.getIdle1WeaponFrame()&0x10)!=0);
+        this.weaponVFlip = ((animation.getIdle1WeaponFrame()&0x20)!=0);
     }
     
     

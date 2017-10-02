@@ -54,6 +54,28 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
         }
     }
     
+    public BattleSpriteAnimationFrame[] produceFrames(){
+        List<BattleSpriteAnimationFrame> entries = new ArrayList<>();
+        for(String[] stringEntry : tableData){
+            try{
+                BattleSpriteAnimationFrame frame = new BattleSpriteAnimationFrame();
+                frame.setIndex(Integer.parseInt(stringEntry[0]));
+                frame.setDuration(Integer.parseInt(stringEntry[1]));
+                frame.setX(Integer.parseInt(stringEntry[2]));
+                frame.setY(Integer.parseInt(stringEntry[3]));
+                frame.setWeaponFrame(Integer.parseInt(stringEntry[4]));
+                frame.setWeaponZ(Integer.parseInt(stringEntry[5]));
+                frame.setWeaponX(Integer.parseInt(stringEntry[6]));
+                frame.setWeaponY(Integer.parseInt(stringEntry[7]));
+                entries.add(frame);
+            }catch(Exception e){
+                break;
+            }
+        }
+        BattleSpriteAnimationFrame[] returnedEntries = new BattleSpriteAnimationFrame[entries.size()];
+        return entries.toArray(returnedEntries);
+    }    
+    
     @Override
     public Object getValueAt(int row, int col) {
         return tableData[row][col];

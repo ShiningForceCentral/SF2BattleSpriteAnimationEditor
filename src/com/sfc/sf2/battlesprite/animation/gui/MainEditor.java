@@ -336,9 +336,9 @@ public class MainEditor extends javax.swing.JFrame {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -352,7 +352,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel10.setText("Background :");
 
-        jTextField9.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\backgrounds\\background00.bin");
+        jTextField9.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\backgrounds\\background09.bin");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -377,7 +377,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel12.setText("Ground base palette :");
 
-        jTextField10.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\plt_battlescenebasepalette.bin");
+        jTextField10.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\plt_battlescenebasepalette.bin");
         jTextField10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField10ActionPerformed(evt);
@@ -393,7 +393,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel13.setText("Ground palette :");
 
-        jTextField12.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundpalette00.bin");
+        jTextField12.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundpalette09.bin");
         jTextField12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField12ActionPerformed(evt);
@@ -409,7 +409,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel16.setText("Ground :");
 
-        jTextField14.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundtiles00.bin");
+        jTextField14.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundtiles09.bin");
         jTextField14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField14ActionPerformed(evt);
@@ -425,7 +425,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel17.setText("Battle Sprite :");
 
-        jTextField16.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\allybattlesprite00.bin");
+        jTextField16.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\allybattlesprite00.bin");
         jTextField16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField16ActionPerformed(evt);
@@ -441,7 +441,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel18.setText("Weapon Sprite palettes :");
 
-        jTextField17.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponpalettes.bin");
+        jTextField17.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponpalettes.bin");
         jTextField17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField17ActionPerformed(evt);
@@ -457,7 +457,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel19.setText("Weapon Sprite :");
 
-        jTextField18.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponsprite00.bin");
+        jTextField18.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponsprite04.bin");
         jTextField18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField18ActionPerformed(evt);
@@ -473,7 +473,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel20.setText("Battle Sprite Animation File :");
 
-        jTextField19.setText("C:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\animations\\allybattlespriteanimation000.bin");
+        jTextField19.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\animations\\allybattlespriteanimation000.bin");
         jTextField19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField19ActionPerformed(evt);
@@ -731,11 +731,11 @@ public class MainEditor extends javax.swing.JFrame {
         jPanel2.removeAll();        
         jPanel2.setLayout(new GridLayout(1,1));
         BattleSpriteAnimationLayout battlespriteanimationLayout = new BattleSpriteAnimationLayout();
-        battlespriteanimationLayout.setBattleSpriteAnimationType(battlespriteanimationManager.getBattlespriteManager().getBattleSprite().getType());
-        battlespriteanimationLayout.setBackgroundTiles(battlespriteanimationManager.getBackgroundManager().getTiles());
-        battlespriteanimationLayout.setGroundTiles(battlespriteanimationManager.getGroundManager().getTiles());
-        battlespriteanimationLayout.setBattlespriteTiles(battlespriteanimationManager.getBattlespriteManager().getTiles());
-        battlespriteanimationLayout.setWeaponTiles(battlespriteanimationManager.getWeaponspriteManager().getTiles());
+        battlespriteanimationLayout.setAnimation(battlespriteanimationManager.getBattleSpriteAnimation());
+        battlespriteanimationLayout.setBackground(battlespriteanimationManager.getBackgroundManager().getBackgrounds()[0]);
+        battlespriteanimationLayout.setGround(battlespriteanimationManager.getGroundManager().getGround());
+        battlespriteanimationLayout.setBattlesprite(battlespriteanimationManager.getBattlespriteManager().getBattleSprite());
+        battlespriteanimationLayout.setWeaponsprite(battlespriteanimationManager.getWeaponspriteManager().getWeaponsprite());
         jPanel2.add(battlespriteanimationLayout);
         jPanel2.setSize(battlespriteanimationLayout.getWidth(), battlespriteanimationLayout.getHeight());
         jPanel2.revalidate();

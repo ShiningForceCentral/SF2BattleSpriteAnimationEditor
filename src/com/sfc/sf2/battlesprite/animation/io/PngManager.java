@@ -138,13 +138,13 @@ public class PngManager {
     
     public static void writePngFile(Tile[] tiles, int battlespriteanimationType, String filepath){
         try {
-            System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.exportPng() - Exporting PNG file ...");
+/*            System.out.println("com.sfc.sf2.battlespriteanimation.io.PngManager.exportPng() - Exporting PNG file ...");
             BattleSpriteAnimationLayout battleSpriteAnimationLayout = new BattleSpriteAnimationLayout();
             BufferedImage image = battleSpriteAnimationLayout.buildImage(true);
             File outputfile = new File(filepath);
             System.out.println("File path : "+outputfile.getAbsolutePath());
             ImageIO.write(image, "png", outputfile);
-            System.out.println("PNG file exported : " + outputfile.getAbsolutePath());
+            System.out.println("PNG file exported : " + outputfile.getAbsolutePath());*/
         } catch (Exception ex) {
             Logger.getLogger(PngManager.class.getName()).log(Level.SEVERE, null, ex);
         }       

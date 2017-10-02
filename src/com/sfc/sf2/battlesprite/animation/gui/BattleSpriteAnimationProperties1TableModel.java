@@ -39,6 +39,17 @@ public class BattleSpriteAnimationProperties1TableModel extends AbstractTableMod
         }
     }
     
+    public void updateProperties(BattleSpriteAnimation animation) {
+                animation.setFrameNumber(Integer.parseInt(tableData[0][0]));
+                animation.setSpellInitFrame(Integer.parseInt(tableData[0][1]));
+                animation.setSpellAnim(Integer.parseInt(tableData[0][2]));
+                animation.setEndSpellAnim(Integer.parseInt(tableData[0][3]));
+                animation.setIdle1WeaponFrame(Integer.parseInt(tableData[0][4]));
+                animation.setIdle1WeaponZ(Integer.parseInt(tableData[0][5]));
+                animation.setIdle1WeaponX(Integer.parseInt(tableData[0][6]));
+                animation.setIdle1WeaponY(Integer.parseInt(tableData[0][7]));
+    }
+    
     @Override
     public Object getValueAt(int row, int col) {
         return tableData[row][col];

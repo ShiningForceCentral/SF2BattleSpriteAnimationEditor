@@ -37,6 +37,17 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
             tableData[i][6] = Integer.toString(animation.getIdle2WeaponX());
             tableData[i][7] = Integer.toString(animation.getIdle2WeaponY());
         }
+    }    
+    
+    public void updateProperties(BattleSpriteAnimation animation) {
+                animation.setByte8(Integer.parseInt(tableData[0][0]));
+                animation.setByte9(Integer.parseInt(tableData[0][1]));
+                animation.setByte10(Integer.parseInt(tableData[0][2]));
+                animation.setByte11(Integer.parseInt(tableData[0][3]));
+                animation.setIdle2WeaponFrame(Integer.parseInt(tableData[0][4]));
+                animation.setIdle2WeaponZ(Integer.parseInt(tableData[0][5]));
+                animation.setIdle2WeaponX(Integer.parseInt(tableData[0][6]));
+                animation.setIdle2WeaponY(Integer.parseInt(tableData[0][7]));
     }
     
     @Override
