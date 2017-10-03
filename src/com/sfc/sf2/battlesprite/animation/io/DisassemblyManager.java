@@ -86,69 +86,45 @@ public class DisassemblyManager {
         return battlespriteanimation;
     }
     
-    public static void exportDisassembly(BattleSpriteAnimation battlespriteanimation, String filepath){
+    public static void exportDisassembly(BattleSpriteAnimation anim, String filepath){
         System.out.println("com.sfc.sf2.battlespriteanimation.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
         try{
-            /*
-                short animSpeed = (short)(battlespriteanimation.getAnimSpeed()&0xFFFF);
-                short unknown = battlespriteanimation.getUnknown();
-                
-                Color[][] palettes = battlespriteanimation.getPalettes();
-                byte[][] paletteBytes = new byte[palettes.length][];
             
-                Tile[][] frames = battlespriteanimation.getFrames();
+                int frameNumber = anim.getFrames().length;
+                byte[] animationFileBytes = new byte[16 + frameNumber*8];
             
-                byte[][] frameBytes = new byte[frames.length][];
-                short[] frameOffsets = new short[frames.length];
-                        
-                short palettesOffset = (short) (frames.length * 2 + 2);
+                animationFileBytes[0] = (byte)(frameNumber+1);
+                animationFileBytes[1] = (byte)(anim.getSpellInitFrame());
+                animationFileBytes[2] = (byte)(anim.getSpellAnim());
+                animationFileBytes[3] = (byte)(anim.getEndSpellAnim());
+                animationFileBytes[4] = (byte)(anim.getIdle1WeaponFrame());
+                animationFileBytes[5] = (byte)(anim.getIdle1WeaponZ());
+                animationFileBytes[6] = (byte)(anim.getIdle1WeaponX());
+                animationFileBytes[7] = (byte)(anim.getIdle1WeaponY());
+                animationFileBytes[8] = (byte)(anim.getByte8());
+                animationFileBytes[9] = (byte)(anim.getByte9());
+                animationFileBytes[10] = (byte)(anim.getByte10());
+                animationFileBytes[11] = (byte)(anim.getByte11());
+                animationFileBytes[12] = (byte)(anim.getIdle2WeaponFrame());
+                animationFileBytes[13] = (byte)(anim.getIdle2WeaponZ());
+                animationFileBytes[14] = (byte)(anim.getIdle2WeaponX());
+                animationFileBytes[15] = (byte)(anim.getIdle2WeaponY());
                 
-                for(int i=0;i<palettes.length;i++){
-                    PaletteEncoder.producePalette(palettes[i]);
-                    paletteBytes[i] = PaletteEncoder.getNewPaletteFileBytes();
-                }
-                
-                int framesSize = 0;
-                int totalSize = 6 + frames.length * 2 + palettes.length * 32;
-                for(int i=0;i<frames.length;i++){
-                    StackGraphicsEncoder.produceGraphics(frames[i]);
-                    frameBytes[i] = StackGraphicsEncoder.getNewGraphicsFileBytes();
-                    if(i==0){
-                        frameOffsets[i] = (short)(frames.length * 2 + palettes.length * 32);
-                        System.out.println("Frame "+i+" length="+frameBytes[i].length+", offset="+frameOffsets[i]);
-                    }else{
-                        int target = frameOffsets[i-1] + 6 + (i-1)*2 + frameBytes[i-1].length;
-                        int offsetLocation = 6 + i*2;
-                        frameOffsets[i] = (short)((target - offsetLocation)&0xFFFF);
-                        System.out.println("Frame "+i+" length="+frameBytes[i].length+", offset="+frameOffsets[i]);
-                    }
-                    framesSize += frameBytes[i].length;
-                    totalSize += frameBytes[i].length;
+                for(int i=0;i<frameNumber;i++){
+                    animationFileBytes[16+i*8+0] = (byte)(anim.getFrames()[i].getIndex());
+                    animationFileBytes[16+i*8+1] = (byte)(anim.getFrames()[i].getDuration());
+                    animationFileBytes[16+i*8+2] = (byte)(anim.getFrames()[i].getX());
+                    animationFileBytes[16+i*8+3] = (byte)(anim.getFrames()[i].getY());
+                    animationFileBytes[16+i*8+4] = (byte)(anim.getFrames()[i].getWeaponFrame());
+                    animationFileBytes[16+i*8+5] = (byte)(anim.getFrames()[i].getWeaponZ());
+                    animationFileBytes[16+i*8+6] = (byte)(anim.getFrames()[i].getWeaponX());
+                    animationFileBytes[16+i*8+7] = (byte)(anim.getFrames()[i].getWeaponY());
                 }
 
-                byte[] newBattleSpriteAnimationFileBytes = new byte[totalSize];
-                        
-                newBattleSpriteAnimationFileBytes[0] = (byte) ((animSpeed&0xFF00) >> 8);
-                newBattleSpriteAnimationFileBytes[1] = (byte) (animSpeed&0xFF); 
-                newBattleSpriteAnimationFileBytes[2] = (byte) ((unknown&0xFF00) >> 8);
-                newBattleSpriteAnimationFileBytes[3] = (byte) (unknown&0xFF); 
-                newBattleSpriteAnimationFileBytes[4] = (byte) ((palettesOffset&0xFF00) >> 8);
-                newBattleSpriteAnimationFileBytes[5] = (byte) (palettesOffset&0xFF); 
-                for(int i=0;i<frameOffsets.length;i++){
-                    newBattleSpriteAnimationFileBytes[6+i*2] =  (byte) ((frameOffsets[i]&0xFF00) >> 8);
-                    newBattleSpriteAnimationFileBytes[6+i*2+1] = (byte) (frameOffsets[i]&0xFF); 
-                }
-                for(int i=0;i<paletteBytes.length;i++){
-                    System.arraycopy(paletteBytes[i], 0, newBattleSpriteAnimationFileBytes, 6+frameOffsets.length*2+i*32, 32);
-                }
-                for(int i=0;i<frameBytes.length;i++){
-                    System.out.println("Writing frame "+i+" with length="+frameBytes[i].length+" at offset="+(int)(frameOffsets[i]+6+i*2));
-                    System.arraycopy(frameBytes[i], 0, newBattleSpriteAnimationFileBytes, frameOffsets[i]+6+i*2, frameBytes[i].length);
-                }
-                Path graphicsFilePath = Paths.get(filepath);
-                Files.write(graphicsFilePath,newBattleSpriteAnimationFileBytes);
-                System.out.println(newBattleSpriteAnimationFileBytes.length + " bytes into " + graphicsFilePath);   
-*/
+                Path animFilePath = Paths.get(filepath);
+                Files.write(animFilePath,animationFileBytes);
+                System.out.println(animationFileBytes.length + " bytes into " + animFilePath);   
+
         } catch (Exception ex) {
             Logger.getLogger(DisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();

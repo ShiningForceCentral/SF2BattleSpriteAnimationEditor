@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.battlesprite.animation.gui;
 
+import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimationFrame;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,14 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     
     private final Object[][] tableData;
     private final String[] columns = {"Index", "Duration", "X", "Y", "Weapon Frame", "H Flip", "V Flip", "Z", "Weapon X", "Weapon Y"};
+    private BattleSpriteAnimation animation = null;
  
-    public BattleSpriteAnimationFramesTableModel(BattleSpriteAnimationFrame[] frames) {
+    public BattleSpriteAnimationFramesTableModel(BattleSpriteAnimation animation) {
         super();
+        this.animation = animation;
         tableData = new Object[16][];
         int i = 0;
+        BattleSpriteAnimationFrame[] frames = animation.getFrames();
         if(frames!=null){
             while(i<frames.length){
                 tableData[i] = new Object[10];
@@ -36,7 +40,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
                 tableData[i][4] = Integer.toString(frames[i].getWeaponFrame()&0xF);
                 tableData[i][5] = (frames[i].getWeaponFrame()&0x10)!=0;
                 tableData[i][6] = (frames[i].getWeaponFrame()&0x20)!=0;
-                tableData[i][7] = Integer.toString(frames[i].getWeaponZ());
+                tableData[i][7] = frames[i].getWeaponZ()!=1;
                 tableData[i][8] = Integer.toString(frames[i].getWeaponX());
                 tableData[i][9] = Integer.toString(frames[i].getWeaponY());
                 i++;
@@ -51,7 +55,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
             tableData[i][4] = "null";
             tableData[i][5] = false;
             tableData[i][6] = false;
-            tableData[i][7] = "null";
+            tableData[i][7] = false;
             tableData[i][8] = "null";
             tableData[i][9] = "null";
             i++;
@@ -60,14 +64,14 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     
     @Override
     public Class getColumnClass(int column) {
-        if(column == 5 || column == 6){
+        if(column == 5 || column == 6 || column == 7){
             return Boolean.class;
         }else {
             return String.class;
         }
     } 
     
-    public BattleSpriteAnimationFrame[] produceFrames(){
+    public void updateFrameProperties(){
         List<BattleSpriteAnimationFrame> entries = new ArrayList<>();
         for(Object[] entry : tableData){
             try{
@@ -77,7 +81,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
                 frame.setX(Integer.parseInt((String)entry[2]));
                 frame.setY(Integer.parseInt((String)entry[3]));
                 frame.setWeaponFrame(Integer.parseInt((String)entry[4]) + (int)(((Boolean)entry[5])?0x10:0) + (int)((Boolean)entry[6]?0x20:0));
-                frame.setWeaponZ(Integer.parseInt((String)entry[7]));
+                frame.setWeaponZ(((Boolean)entry[7])?2:1);
                 frame.setWeaponX(Integer.parseInt((String)entry[8]));
                 frame.setWeaponY(Integer.parseInt((String)entry[9]));
                 entries.add(frame);
@@ -86,7 +90,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
             }
         }
         BattleSpriteAnimationFrame[] returnedEntries = new BattleSpriteAnimationFrame[entries.size()];
-        return entries.toArray(returnedEntries);
+        animation.setFrames(entries.toArray(returnedEntries));
     }    
     
     @Override
@@ -95,7 +99,11 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     }
     @Override
     public void setValueAt(Object value, int row, int col) {
-        tableData[row][col] = (String)value;
+        tableData[row][col] = value;
+        updateFrameProperties();
+        animation.getLayout().updateDisplayProperties();
+        animation.getLayout().getPanel().revalidate();
+        animation.getLayout().getPanel().repaint();
     }    
  
     @Override

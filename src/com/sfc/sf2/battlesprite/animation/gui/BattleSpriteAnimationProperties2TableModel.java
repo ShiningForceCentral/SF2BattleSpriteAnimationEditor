@@ -21,9 +21,11 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
     
     private final Object[][] tableData;
     private final String[] columns = {"Byte 8", "Byte 9", "Byte 10", "Byte 11", "Idle 2 Weapon Frame", "H Flip", "V Flip", "Idle 2 Z", "Idle 2 Weapon X", "Idle 2 Weapon Y"};
+    private BattleSpriteAnimation animation = null;
  
     public BattleSpriteAnimationProperties2TableModel(BattleSpriteAnimation animation) {
         super();
+        this.animation = animation;
         tableData = new Object[1][];
         int i = 0;
         if(animation!=null){
@@ -35,26 +37,26 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
             tableData[i][4] = Integer.toString(animation.getIdle2WeaponFrame()&0xF);
             tableData[i][5] = (animation.getIdle2WeaponFrame()&0x10)!=0;
             tableData[i][6] = (animation.getIdle2WeaponFrame()&0x20)!=0;
-            tableData[i][7] = Integer.toString(animation.getIdle2WeaponZ());
+            tableData[i][7] = animation.getIdle2WeaponZ()!=1;
             tableData[i][8] = Integer.toString(animation.getIdle2WeaponX());
             tableData[i][9] = Integer.toString(animation.getIdle2WeaponY());
         }
     }    
     
-    public void updateProperties(BattleSpriteAnimation animation) {
-                animation.setByte8(Integer.parseInt((String)tableData[0][0]));
-                animation.setByte9(Integer.parseInt((String)tableData[0][1]));
-                animation.setByte10(Integer.parseInt((String)tableData[0][2]));
-                animation.setByte11(Integer.parseInt((String)tableData[0][3]));
-                animation.setIdle2WeaponFrame(Integer.parseInt((String)tableData[0][4]) + (int)(((Boolean)tableData[0][5])?0x10:0) + (int)((Boolean)tableData[0][6]?0x20:0));
-                animation.setIdle2WeaponZ(Integer.parseInt((String)tableData[0][7]));
-                animation.setIdle2WeaponX(Integer.parseInt((String)tableData[0][8]));
-                animation.setIdle2WeaponY(Integer.parseInt((String)tableData[0][9]));
+    public void updateProperties() {
+        animation.setByte8(Integer.parseInt((String)tableData[0][0]));
+        animation.setByte9(Integer.parseInt((String)tableData[0][1]));
+        animation.setByte10(Integer.parseInt((String)tableData[0][2]));
+        animation.setByte11(Integer.parseInt((String)tableData[0][3]));
+        animation.setIdle2WeaponFrame(Integer.parseInt((String)tableData[0][4]) + (int)(((Boolean)tableData[0][5])?0x10:0) + (int)((Boolean)tableData[0][6]?0x20:0));
+        animation.setIdle2WeaponZ(((Boolean)tableData[0][7])?2:1);
+        animation.setIdle2WeaponX(Integer.parseInt((String)tableData[0][8]));
+        animation.setIdle2WeaponY(Integer.parseInt((String)tableData[0][9]));
     }
     
     @Override
     public Class getColumnClass(int column) {
-        if(column == 5 ||column == 6){
+        if(column == 5 || column == 6 || column == 7){
             return Boolean.class;
         }else {
             return String.class;
@@ -67,7 +69,11 @@ public class BattleSpriteAnimationProperties2TableModel extends AbstractTableMod
     }
     @Override
     public void setValueAt(Object value, int row, int col) {
-        tableData[row][col] = (String)value;
+        tableData[row][col] = value;
+        updateProperties();
+        animation.getLayout().updateDisplayProperties();
+        animation.getLayout().getPanel().revalidate();
+        animation.getLayout().getPanel().repaint();
     }    
  
     @Override

@@ -5,6 +5,7 @@
  */
 package com.sfc.sf2.battlesprite.animation;
 
+import com.sfc.sf2.battlesprite.animation.layout.BattleSpriteAnimationLayout;
 import com.sfc.sf2.graphics.Tile;
 import java.awt.Color;
 
@@ -40,6 +41,8 @@ public class BattleSpriteAnimation {
     private int idle2WeaponZ;
     private int idle2WeaponX;
     private int idle2WeaponY;    
+    
+    private BattleSpriteAnimationLayout layout;
 
     public int getType() {
         return type;
@@ -183,5 +186,13 @@ public class BattleSpriteAnimation {
 
     public void setIdle2WeaponY(int idle2WeaponY) {
         this.idle2WeaponY = idle2WeaponY;
+    }
+
+    public BattleSpriteAnimationLayout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(BattleSpriteAnimationLayout layout) {
+        this.layout = layout;
     }
 }
