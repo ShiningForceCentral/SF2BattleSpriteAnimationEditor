@@ -49,28 +49,20 @@ public class DisassemblyManager {
                 battlespriteanimation.setIdle1WeaponZ(getNextByte(data,5));
                 battlespriteanimation.setIdle1WeaponX(getNextByte(data,6));
                 battlespriteanimation.setIdle1WeaponY(getNextByte(data,7));
-                battlespriteanimation.setByte8(getNextByte(data,8));
-                battlespriteanimation.setByte9(getNextByte(data,9));
-                battlespriteanimation.setByte10(getNextByte(data,10));
-                battlespriteanimation.setByte11(getNextByte(data,11));
-                battlespriteanimation.setIdle2WeaponFrame(getNextByte(data,12));
-                battlespriteanimation.setIdle2WeaponZ(getNextByte(data,13));
-                battlespriteanimation.setIdle2WeaponX(getNextByte(data,14));
-                battlespriteanimation.setIdle2WeaponY(getNextByte(data,15));
                 
-                BattleSpriteAnimationFrame[] frames = new BattleSpriteAnimationFrame[battlespriteanimation.getFrameNumber()-1];
+                BattleSpriteAnimationFrame[] frames = new BattleSpriteAnimationFrame[battlespriteanimation.getFrameNumber()];
                 
                 for(int i=0;i<frames.length;i++){
                     BattleSpriteAnimationFrame frame = new BattleSpriteAnimationFrame();
                     
-                    frame.setIndex(getNextByte(data,16+i*8+0));
-                    frame.setDuration(getNextByte(data,16+i*8+1));
-                    frame.setX(getNextByte(data,16+i*8+2));
-                    frame.setY(getNextByte(data,16+i*8+3));
-                    frame.setWeaponFrame(getNextByte(data,16+i*8+4));
-                    frame.setWeaponZ(getNextByte(data,16+i*8+5));
-                    frame.setWeaponX(getNextByte(data,16+i*8+6));
-                    frame.setWeaponY(getNextByte(data,16+i*8+7));
+                    frame.setIndex(getNextByte(data,8+i*8+0));
+                    frame.setDuration(getNextByte(data,8+i*8+1));
+                    frame.setX(getNextByte(data,8+i*8+2));
+                    frame.setY(getNextByte(data,8+i*8+3));
+                    frame.setWeaponFrame(getNextByte(data,8+i*8+4));
+                    frame.setWeaponZ(getNextByte(data,8+i*8+5));
+                    frame.setWeaponX(getNextByte(data,8+i*8+6));
+                    frame.setWeaponY(getNextByte(data,8+i*8+7));
                     
                     frames[i] = frame;
                 }
@@ -91,9 +83,9 @@ public class DisassemblyManager {
         try{
             
                 int frameNumber = anim.getFrames().length;
-                byte[] animationFileBytes = new byte[16 + frameNumber*8];
+                byte[] animationFileBytes = new byte[8 + frameNumber*8];
             
-                animationFileBytes[0] = (byte)(frameNumber+1);
+                animationFileBytes[0] = (byte)(frameNumber);
                 animationFileBytes[1] = (byte)(anim.getSpellInitFrame());
                 animationFileBytes[2] = (byte)(anim.getSpellAnim());
                 animationFileBytes[3] = (byte)(anim.getEndSpellAnim());
@@ -101,24 +93,16 @@ public class DisassemblyManager {
                 animationFileBytes[5] = (byte)(anim.getIdle1WeaponZ());
                 animationFileBytes[6] = (byte)(anim.getIdle1WeaponX());
                 animationFileBytes[7] = (byte)(anim.getIdle1WeaponY());
-                animationFileBytes[8] = (byte)(anim.getByte8());
-                animationFileBytes[9] = (byte)(anim.getByte9());
-                animationFileBytes[10] = (byte)(anim.getByte10());
-                animationFileBytes[11] = (byte)(anim.getByte11());
-                animationFileBytes[12] = (byte)(anim.getIdle2WeaponFrame());
-                animationFileBytes[13] = (byte)(anim.getIdle2WeaponZ());
-                animationFileBytes[14] = (byte)(anim.getIdle2WeaponX());
-                animationFileBytes[15] = (byte)(anim.getIdle2WeaponY());
                 
                 for(int i=0;i<frameNumber;i++){
-                    animationFileBytes[16+i*8+0] = (byte)(anim.getFrames()[i].getIndex());
-                    animationFileBytes[16+i*8+1] = (byte)(anim.getFrames()[i].getDuration());
-                    animationFileBytes[16+i*8+2] = (byte)(anim.getFrames()[i].getX());
-                    animationFileBytes[16+i*8+3] = (byte)(anim.getFrames()[i].getY());
-                    animationFileBytes[16+i*8+4] = (byte)(anim.getFrames()[i].getWeaponFrame());
-                    animationFileBytes[16+i*8+5] = (byte)(anim.getFrames()[i].getWeaponZ());
-                    animationFileBytes[16+i*8+6] = (byte)(anim.getFrames()[i].getWeaponX());
-                    animationFileBytes[16+i*8+7] = (byte)(anim.getFrames()[i].getWeaponY());
+                    animationFileBytes[8+i*8+0] = (byte)(anim.getFrames()[i].getIndex());
+                    animationFileBytes[8+i*8+1] = (byte)(anim.getFrames()[i].getDuration());
+                    animationFileBytes[8+i*8+2] = (byte)(anim.getFrames()[i].getX());
+                    animationFileBytes[8+i*8+3] = (byte)(anim.getFrames()[i].getY());
+                    animationFileBytes[8+i*8+4] = (byte)(anim.getFrames()[i].getWeaponFrame());
+                    animationFileBytes[8+i*8+5] = (byte)(anim.getFrames()[i].getWeaponZ());
+                    animationFileBytes[8+i*8+6] = (byte)(anim.getFrames()[i].getWeaponX());
+                    animationFileBytes[8+i*8+7] = (byte)(anim.getFrames()[i].getWeaponY());
                 }
 
                 Path animFilePath = Paths.get(filepath);

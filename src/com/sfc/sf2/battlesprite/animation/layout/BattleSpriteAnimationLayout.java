@@ -69,6 +69,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     private int currentWeaponY = 0;
     private boolean weaponHFlip = false;
     private boolean weaponVFlip = false;
+    private boolean hideWeapon = false;
     
     private javax.swing.JPanel panel;
     
@@ -97,9 +98,13 @@ public class BattleSpriteAnimationLayout extends JPanel {
             int weaponFlip = 0 + (weaponHFlip?1:0) + (weaponVFlip?2:0);
             if(currentWeaponZ==2){
                 g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
-                g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentWeaponX, WEAPONSPRITE_BASE_Y+currentWeaponY, null);
+                if(!hideWeapon){
+                    g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
+                }
             }else{
-                g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentWeaponX, WEAPONSPRITE_BASE_Y+currentWeaponY, null); 
+                if(!hideWeapon){
+                    g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
+                } 
                 g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
             }
         }
@@ -253,41 +258,39 @@ public class BattleSpriteAnimationLayout extends JPanel {
     }
     
     public void updateDisplayProperties(){
-        switch(this.currentAnimationFrame){
-            case 0:
-                this.currentBattlespriteFrame = 0;
-                this.currentFrameX = 0;
-                this.currentFrameY = 0;
-                this.currentWeaponspriteFrame = animation.getIdle1WeaponFrame()&0xF;
-                this.currentWeaponZ = animation.getIdle1WeaponZ();
-                this.currentWeaponX = animation.getIdle1WeaponX();
-                this.currentWeaponY = animation.getIdle1WeaponY();
-                this.weaponHFlip = ((animation.getIdle1WeaponFrame()&0x10)!=0);
-                this.weaponVFlip = ((animation.getIdle1WeaponFrame()&0x20)!=0);
-                break;
-            case 1:
-                this.currentBattlespriteFrame = 1;
-                this.currentFrameX = 0;
-                this.currentFrameY = 0;
-                this.currentWeaponspriteFrame = animation.getIdle2WeaponFrame()&0xF;
-                this.currentWeaponZ = animation.getIdle2WeaponZ();
-                this.currentWeaponX = animation.getIdle2WeaponX();
-                this.currentWeaponY = animation.getIdle2WeaponY();
-                this.weaponHFlip = ((animation.getIdle2WeaponFrame()&0x10)!=0);
-                this.weaponVFlip = ((animation.getIdle2WeaponFrame()&0x20)!=0);
-                break;
-            default :
-                this.currentBattlespriteFrame = animation.getFrames()[this.currentAnimationFrame-2].getIndex();
-                this.currentFrameX = animation.getFrames()[this.currentAnimationFrame-2].getX();
-                this.currentFrameY = animation.getFrames()[this.currentAnimationFrame-2].getY();
-                this.currentWeaponspriteFrame = animation.getFrames()[this.currentAnimationFrame-2].getWeaponFrame()&0xF;
-                this.currentWeaponZ = animation.getFrames()[this.currentAnimationFrame-2].getWeaponZ();
-                this.currentWeaponX = animation.getFrames()[this.currentAnimationFrame-2].getWeaponX();
-                this.currentWeaponY = animation.getFrames()[this.currentAnimationFrame-2].getWeaponY();
-                this.weaponHFlip = ((animation.getFrames()[this.currentAnimationFrame-2].getWeaponFrame()&0x10)!=0);
-                this.weaponVFlip = ((animation.getFrames()[this.currentAnimationFrame-2].getWeaponFrame()&0x20)!=0);
-                break;
+        if(this.currentAnimationFrame==0){
+            this.currentBattlespriteFrame = 0;
+            this.currentFrameX = 0;
+            this.currentFrameY = 0;
+            this.currentWeaponspriteFrame = animation.getIdle1WeaponFrame()&0xF;
+            this.currentWeaponZ = animation.getIdle1WeaponZ();
+            this.currentWeaponX = animation.getIdle1WeaponX();
+            this.currentWeaponY = animation.getIdle1WeaponY();
+            this.weaponHFlip = ((animation.getIdle1WeaponFrame()&0x10)!=0);
+            this.weaponVFlip = ((animation.getIdle1WeaponFrame()&0x20)!=0);
+        }else{
+            int bsFrame = animation.getFrames()[this.currentAnimationFrame-1].getIndex();
+            if(bsFrame == 0xF){
+                this.currentBattlespriteFrame = getPreviousBattlespriteFrame(this.currentAnimationFrame-1);
+            }else{
+                this.currentBattlespriteFrame = bsFrame;
+            }
+            this.currentFrameX = animation.getFrames()[this.currentAnimationFrame-1].getX();
+            this.currentFrameY = animation.getFrames()[this.currentAnimationFrame-1].getY();
+            this.currentWeaponspriteFrame = animation.getFrames()[this.currentAnimationFrame-1].getWeaponFrame()&0xF;
+            this.currentWeaponZ = animation.getFrames()[this.currentAnimationFrame-1].getWeaponZ();
+            this.currentWeaponX = animation.getFrames()[this.currentAnimationFrame-1].getWeaponX();
+            this.currentWeaponY = animation.getFrames()[this.currentAnimationFrame-1].getWeaponY();
+            this.weaponHFlip = ((animation.getFrames()[this.currentAnimationFrame-1].getWeaponFrame()&0x10)!=0);
+            this.weaponVFlip = ((animation.getFrames()[this.currentAnimationFrame-1].getWeaponFrame()&0x20)!=0);
         }
+    }
+    
+    private int getPreviousBattlespriteFrame(int initAnimFrame){
+        while(animation.getFrames()[initAnimFrame].getIndex()==0xF){
+            initAnimFrame--;
+        }
+        return animation.getFrames()[initAnimFrame].getIndex();
     }
 
     public JPanel getPanel() {
@@ -312,6 +315,14 @@ public class BattleSpriteAnimationLayout extends JPanel {
 
     public void setCurrentAnimationFrame(int currentAnimationFrame) {
         this.currentAnimationFrame = currentAnimationFrame;
+    }
+
+    public boolean isHideWeapon() {
+        return hideWeapon;
+    }
+
+    public void setHideWeapon(boolean hideWeapon) {
+        this.hideWeapon = hideWeapon;
     }
     
     

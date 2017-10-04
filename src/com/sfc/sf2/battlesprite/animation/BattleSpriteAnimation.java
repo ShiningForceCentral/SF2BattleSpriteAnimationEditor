@@ -30,17 +30,7 @@ public class BattleSpriteAnimation {
     private int idle1WeaponFrame;
     private int idle1WeaponZ;
     private int idle1WeaponX;
-    private int idle1WeaponY;
-    
-    private int byte8;
-    private int byte9;
-    private int byte10;
-    private int byte11;
-
-    private int idle2WeaponFrame;
-    private int idle2WeaponZ;
-    private int idle2WeaponX;
-    private int idle2WeaponY;    
+    private int idle1WeaponY;   
     
     private BattleSpriteAnimationLayout layout;
 
@@ -122,70 +112,6 @@ public class BattleSpriteAnimation {
 
     public void setIdle1WeaponY(int idle1WeaponY) {
         this.idle1WeaponY = idle1WeaponY;
-    }
-
-    public int getByte8() {
-        return byte8;
-    }
-
-    public void setByte8(int byte8) {
-        this.byte8 = byte8;
-    }
-
-    public int getByte9() {
-        return byte9;
-    }
-
-    public void setByte9(int byte9) {
-        this.byte9 = byte9;
-    }
-
-    public int getByte10() {
-        return byte10;
-    }
-
-    public void setByte10(int byte10) {
-        this.byte10 = byte10;
-    }
-
-    public int getByte11() {
-        return byte11;
-    }
-
-    public void setByte11(int byte11) {
-        this.byte11 = byte11;
-    }
-
-    public int getIdle2WeaponFrame() {
-        return idle2WeaponFrame;
-    }
-
-    public void setIdle2WeaponFrame(int idle2WeaponFrame) {
-        this.idle2WeaponFrame = idle2WeaponFrame;
-    }
-
-    public int getIdle2WeaponZ() {
-        return idle2WeaponZ;
-    }
-
-    public void setIdle2WeaponZ(int idle2WeaponZ) {
-        this.idle2WeaponZ = idle2WeaponZ;
-    }
-
-    public int getIdle2WeaponX() {
-        return idle2WeaponX;
-    }
-
-    public void setIdle2WeaponX(int idle2WeaponX) {
-        this.idle2WeaponX = idle2WeaponX;
-    }
-
-    public int getIdle2WeaponY() {
-        return idle2WeaponY;
-    }
-
-    public void setIdle2WeaponY(int idle2WeaponY) {
-        this.idle2WeaponY = idle2WeaponY;
     }
 
     public BattleSpriteAnimationLayout getLayout() {
