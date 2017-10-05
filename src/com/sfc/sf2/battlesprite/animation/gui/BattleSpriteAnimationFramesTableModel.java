@@ -48,16 +48,16 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
         }
         while(i<tableData.length){
             tableData[i] = new Object[10];
-            tableData[i][0] = "null";
-            tableData[i][1] = "null";
-            tableData[i][2] = "null";
-            tableData[i][3] = "null";
-            tableData[i][4] = "null";
+            tableData[i][0] = "";
+            tableData[i][1] = "";
+            tableData[i][2] = "0";
+            tableData[i][3] = "0";
+            tableData[i][4] = "0";
             tableData[i][5] = false;
             tableData[i][6] = false;
             tableData[i][7] = false;
-            tableData[i][8] = "null";
-            tableData[i][9] = "null";
+            tableData[i][8] = "0";
+            tableData[i][9] = "0";
             i++;
         }
     }

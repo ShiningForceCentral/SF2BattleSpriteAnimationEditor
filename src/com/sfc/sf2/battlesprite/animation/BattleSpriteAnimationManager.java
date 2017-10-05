@@ -6,6 +6,7 @@
 package com.sfc.sf2.battlesprite.animation;
 
 import com.sfc.sf2.background.BackgroundManager;
+import com.sfc.sf2.battlesprite.BattleSprite;
 import com.sfc.sf2.battlesprite.BattleSpriteManager;
 import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.graphics.Tile;
@@ -33,14 +34,18 @@ public class BattleSpriteAnimationManager {
         backgroundManager.importSingleDisassembly(backgroundPath);
         groundManager.importDisassembly(groundBasePalettePath, groundPalettePath, groundPath);
         battlespriteManager.importDisassembly(battlespritePath);
-        weaponspriteManager.importDisassembly(weaponPalettesPath, weaponPath);
-        battlespriteanimation = DisassemblyManager.importDisassembly(animationPath);
+        if(battlespriteManager.getBattleSprite().getType()==BattleSprite.TYPE_ALLY && !weaponPalettesPath.isEmpty() && !weaponPath.isEmpty()){
+            weaponspriteManager.importDisassembly(weaponPalettesPath, weaponPath);
+        }
+        int animationType = (battlespriteManager.getBattleSprite().getType()==BattleSprite.TYPE_ALLY)?BattleSpriteAnimation.TYPE_ALLY:BattleSpriteAnimation.TYPE_ENEMY;
+        battlespriteanimation = DisassemblyManager.importDisassembly(animationPath, animationType);
         System.out.println("com.sfc.sf2.battlespriteanimation.BattleSpriteAnimationManager.importDisassembly() - Disassembly imported.");
     }
     
     public void exportDisassembly(String filepath){
         System.out.println("com.sfc.sf2.battlespriteanimation.BattleSpriteAnimationManager.importDisassembly() - Exporting disassembly ...");
-        DisassemblyManager.exportDisassembly(battlespriteanimation, filepath);
+        int animationType = (battlespriteManager.getBattleSprite().getType()==BattleSprite.TYPE_ALLY)?BattleSpriteAnimation.TYPE_ALLY:BattleSpriteAnimation.TYPE_ENEMY;
+        DisassemblyManager.exportDisassembly(battlespriteanimation, filepath, animationType);
         System.out.println("com.sfc.sf2.battlespriteanimation.BattleSpriteAnimationManager.importDisassembly() - Disassembly exported.");        
     }   
     

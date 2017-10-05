@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="SF2BattleSpriteAnimationManager" default="default" basedir=".">
-    <description>Builds, tests, and runs the project SF2BattleSpriteAnimationManager</description>
+<project name="SF2BattleSpriteAnimationEditor" default="default" basedir=".">
+    <description>Builds, tests, and runs the project SF2BattleSpriteAnimationEditor</description>
     <import file="nbproject/build-impl.xml"/>
     
    <target name="package-for-store" depends="jar">
@@ -17,7 +17,7 @@
              minus the .jar extension. It should not have spaces.
              <property name="store.jar.name" value="MyJarName"/>
         -->
-        <property name="store.jar.name" value="SF2BattleSpriteAnimationManager"/>
+        <property name="store.jar.name" value="SF2BattleSpriteAnimationEditor"/>
 
 
         <!-- don't edit below this line -->

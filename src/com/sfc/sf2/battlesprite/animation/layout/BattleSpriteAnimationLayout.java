@@ -29,9 +29,6 @@ import javax.swing.JPanel;
  */
 public class BattleSpriteAnimationLayout extends JPanel {
     
-    private static final int ALLY_TILES_PER_ROW = 12;
-    private static final int ENEMY_TILES_PER_ROW = 16;
-    
     private static final int DEFAULT_TILES_PER_ROW = 32;
     
     private static final int BACKGROUND_BASE_X = 0;
@@ -41,7 +38,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     private static final int BATTLESPRITE_ALLY_BASE_X = 136;
     private static final int BATTLESPRITE_ALLY_BASE_Y = 64;
     private static final int BATTLESPRITE_ENEMY_BASE_X = 0;
-    private static final int BATTLESPRITE_ENEMY_BASE_Y = 48;
+    private static final int BATTLESPRITE_ENEMY_BASE_Y = 56;
     private static final int WEAPONSPRITE_BASE_X = 136;
     private static final int WEAPONSPRITE_BASE_Y = 64;
     
@@ -93,16 +90,16 @@ public class BattleSpriteAnimationLayout extends JPanel {
         g.drawImage(backgroundImage, BACKGROUND_BASE_X, BACKGROUND_BASE_Y, null);
         g.drawImage(groundImage, GROUND_BASE_X, GROUND_BASE_Y, null);
         if(battlesprite.getType()==BattleSprite.TYPE_ENEMY){
-            g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ENEMY_BASE_X, BATTLESPRITE_ENEMY_BASE_Y, null);
+            g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ENEMY_BASE_X+currentFrameX, BATTLESPRITE_ENEMY_BASE_Y+currentFrameY, null);
         }else{
             int weaponFlip = 0 + (weaponHFlip?1:0) + (weaponVFlip?2:0);
             if(currentWeaponZ==2){
                 g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
-                if(!hideWeapon){
+                if(!hideWeapon && weaponsprite!=null){
                     g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
                 }
             }else{
-                if(!hideWeapon){
+                if(!hideWeapon && weaponsprite!=null){
                     g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
                 } 
                 g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
@@ -146,6 +143,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     
     public void generateBattlespriteImages(){
         BattleSpriteLayout battlespriteLayout = new BattleSpriteLayout();
+        battlespriteLayout.setBattlespriteType(battlesprite.getType());
         battlespriteImages = new BufferedImage[battlesprite.getFrames().length];
         for(int i=0;i<battlesprite.getFrames().length;i++){
             battlespriteLayout.setTiles(battlesprite.getFrames()[i]);
@@ -155,7 +153,9 @@ public class BattleSpriteAnimationLayout extends JPanel {
 
     public void setWeaponsprite(WeaponSprite weaponsprite) {
         this.weaponsprite = weaponsprite;
-        generateWeaponspriteImages();
+        if(weaponsprite!=null){
+            generateWeaponspriteImages();
+        }
     }
     
     public void generateWeaponspriteImages(){

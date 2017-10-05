@@ -49,7 +49,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
     Timer idleTimer = new Timer();
     javax.swing.Timer swingTimer;
     int currentAnimFrame = 0;
-    private final Object lock = new Object();
+    boolean animPlaying = false;
     
     /**
      * Creates new form NewApplication
@@ -460,7 +460,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel10.setText("Background :");
 
-        jTextField9.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\backgrounds\\background09.bin");
+        jTextField9.setText("..\\backgrounds\\background09.bin");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -485,7 +485,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel12.setText("Ground base palette :");
 
-        jTextField10.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\plt_battlescenebasepalette.bin");
+        jTextField10.setText("..\\plt_battlescenebasepalette.bin");
         jTextField10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField10ActionPerformed(evt);
@@ -501,7 +501,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel13.setText("Ground palette :");
 
-        jTextField12.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundpalette09.bin");
+        jTextField12.setText("..\\grounds\\groundpalette09.bin");
         jTextField12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField12ActionPerformed(evt);
@@ -517,7 +517,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel16.setText("Ground :");
 
-        jTextField14.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\grounds\\groundtiles09.bin");
+        jTextField14.setText("..\\grounds\\groundtiles09.bin");
         jTextField14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField14ActionPerformed(evt);
@@ -533,7 +533,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel17.setText("Battle Sprite :");
 
-        jTextField16.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\allybattlesprite00.bin");
+        jTextField16.setText(".\\allies\\allybattlesprite00.bin");
         jTextField16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField16ActionPerformed(evt);
@@ -549,7 +549,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel18.setText("Weapon Sprite palettes :");
 
-        jTextField17.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponpalettes.bin");
+        jTextField17.setText("..\\weapons\\weaponpalettes.bin");
         jTextField17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField17ActionPerformed(evt);
@@ -565,7 +565,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel19.setText("Weapon Sprite :");
 
-        jTextField18.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\weapons\\weaponsprite04.bin");
+        jTextField18.setText("..\\weapons\\weaponsprite04.bin");
         jTextField18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField18ActionPerformed(evt);
@@ -581,7 +581,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel20.setText("Battle Sprite Animation File :");
 
-        jTextField19.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\animations\\allybattlespriteanimation000.bin");
+        jTextField19.setText(".\\allies\\animations\\allybattlespriteanimation000.bin");
         jTextField19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField19ActionPerformed(evt);
@@ -605,53 +605,53 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                        .addComponent(jTextField9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton15))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton18))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton16))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                        .addComponent(jTextField12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton19))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField14, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addComponent(jTextField14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton21))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                        .addComponent(jTextField16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton22))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                        .addComponent(jTextField17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton23))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField18, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                        .addComponent(jTextField18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton24))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField19, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton25)))
                 .addContainerGap())
@@ -710,7 +710,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
         jLabel14.setText("File :");
 
-        jTextField13.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\battles\\battlesprites\\allies\\animations\\newallybattlespriteanimation01.bin");
+        jTextField13.setText(".\\allies\\animations\\newallybattlespriteanimation000.bin");
         jTextField13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField13ActionPerformed(evt);
@@ -743,7 +743,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                        .addComponent(jTextField13)
                         .addGap(10, 10, 10)
                         .addComponent(jButton20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -834,8 +834,10 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
             jComboBox2.addItem(String.valueOf(i));
         }
         jComboBox3.removeAllItems();
-        for(int i=0;i<battlespriteanimationManager.getWeaponspriteManager().getWeaponsprite().getPalettes().length;i++){
-            jComboBox3.addItem(String.valueOf(i));
+        if(battlespriteanimationManager.getWeaponspriteManager().getWeaponsprite()!=null){
+            for(int i=0;i<battlespriteanimationManager.getWeaponspriteManager().getWeaponsprite().getPalettes().length;i++){
+                jComboBox3.addItem(String.valueOf(i));
+            }
         }
         jPanel2.removeAll();        
         jPanel2.setLayout(new GridLayout(1,1));
@@ -972,7 +974,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
             BattleSprite battlesprite = battlespriteanimationManager.getBattlespriteManager().getBattleSprite();
             Color[][] palettes = battlesprite.getPalettes();
             Tile[][] frames = battlesprite.getFrames();
-            for(int i=0;i<4;i++){
+            for(int i=0;i<frames.length;i++){
                 for(int j=0;j<frames[i].length;j++){
                     frames[i][j].setPalette(palettes[jComboBox2.getSelectedIndex()]);
                 }
@@ -986,14 +988,16 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         if(jComboBox3.getSelectedIndex()>=0 && battlespriteanimationLayout!=null){
             WeaponSprite weaponsprite = battlespriteanimationManager.getWeaponspriteManager().getWeaponsprite();
-            Color[][] palettes = weaponsprite.getPalettes();
-            Tile[] tiles = weaponsprite.getTiles();
-            for(int i=0;i<tiles.length;i++){
-                tiles[i].setPalette(palettes[jComboBox3.getSelectedIndex()]);
+            if(weaponsprite!=null){
+                Color[][] palettes = weaponsprite.getPalettes();
+                Tile[] tiles = weaponsprite.getTiles();
+                for(int i=0;i<tiles.length;i++){
+                    tiles[i].setPalette(palettes[jComboBox3.getSelectedIndex()]);
+                }
+                battlespriteanimationLayout.setWeaponsprite(weaponsprite);
+                jPanel2.revalidate();
+                jPanel2.repaint(); 
             }
-            battlespriteanimationLayout.setWeaponsprite(weaponsprite);
-            jPanel2.revalidate();
-            jPanel2.repaint(); 
         }  
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
@@ -1006,13 +1010,15 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
-        if((int)jSpinner1.getModel().getValue()<=battlespriteanimationManager.getBattleSpriteAnimation().getFrames().length){
-            battlespriteanimationLayout.setCurrentAnimationFrame((int)jSpinner1.getModel().getValue());
-            battlespriteanimationLayout.updateDisplayProperties();
-            jPanel2.revalidate();
-            jPanel2.repaint();
-        }else{
-            jSpinner1.getModel().setValue(battlespriteanimationManager.getBattleSpriteAnimation().getFrames().length);
+        if(!animPlaying){
+            if((int)jSpinner1.getModel().getValue()<=battlespriteanimationManager.getBattleSpriteAnimation().getFrames().length){
+                battlespriteanimationLayout.setCurrentAnimationFrame((int)jSpinner1.getModel().getValue());
+                battlespriteanimationLayout.updateDisplayProperties();
+                jPanel2.revalidate();
+                jPanel2.repaint();
+            }else{
+                jSpinner1.getModel().setValue(battlespriteanimationManager.getBattleSpriteAnimation().getFrames().length);
+            }
         }
     }//GEN-LAST:event_jSpinner1StateChanged
 
@@ -1061,9 +1067,11 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jCheckBox2.setSelected(false);
+        animPlaying = true;
         idleTimer.cancel();
         idleTimer.purge();        
         currentAnimFrame = 1; 
+        jSpinner1.getModel().setValue(currentAnimFrame);
         battlespriteanimationLayout.setCurrentAnimationFrame(currentAnimFrame);
         battlespriteanimationLayout.updateDisplayProperties();
         jPanel2.revalidate();
@@ -1189,6 +1197,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         swingTimer.stop();
         if(currentAnimFrame<=battlespriteanimationManager.getBattleSpriteAnimation().getFrames().length){
+            jSpinner1.getModel().setValue(currentAnimFrame);
             battlespriteanimationLayout.setCurrentAnimationFrame(currentAnimFrame);
             battlespriteanimationLayout.updateDisplayProperties();
             jPanel2.revalidate();
@@ -1200,6 +1209,7 @@ public class MainEditor extends javax.swing.JFrame implements ActionListener {
             currentAnimFrame++;
         }else{
             swingTimer.stop();
+            animPlaying = false;
         }
     }
 
