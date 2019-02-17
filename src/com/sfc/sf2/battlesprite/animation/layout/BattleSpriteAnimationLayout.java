@@ -84,7 +84,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     
     public BufferedImage buildImage(boolean pngExport, boolean battlespriteOnly){
         
-        BufferedImage image = new BufferedImage(256, 224, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(256, 224, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         
         g.drawImage(backgroundImage, BACKGROUND_BASE_X, BACKGROUND_BASE_Y, null);
