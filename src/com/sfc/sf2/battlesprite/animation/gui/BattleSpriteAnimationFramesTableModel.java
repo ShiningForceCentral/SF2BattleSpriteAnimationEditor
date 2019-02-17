@@ -27,7 +27,7 @@ public class BattleSpriteAnimationFramesTableModel extends AbstractTableModel {
     public BattleSpriteAnimationFramesTableModel(BattleSpriteAnimation animation) {
         super();
         this.animation = animation;
-        tableData = new Object[16][];
+        tableData = new Object[256][];
         int i = 0;
         BattleSpriteAnimationFrame[] frames = animation.getFrames();
         if(frames!=null){
