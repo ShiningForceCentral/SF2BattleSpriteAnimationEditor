@@ -6,8 +6,6 @@
 package com.sfc.sf2.battlesprite.animation;
 
 import com.sfc.sf2.battlesprite.animation.layout.BattleSpriteAnimationLayout;
-import com.sfc.sf2.graphics.Tile;
-import java.awt.Color;
 
 /**
  *

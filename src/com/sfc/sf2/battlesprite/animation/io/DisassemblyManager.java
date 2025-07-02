@@ -5,24 +5,13 @@
  */
 package com.sfc.sf2.battlesprite.animation.io;
 
-import com.sfc.sf2.graphics.Tile;
-import com.sfc.sf2.graphics.compressed.BasicGraphicsDecoder;
-import com.sfc.sf2.graphics.compressed.BasicGraphicsEncoder;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimationFrame;
-import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
-import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
-import com.sfc.sf2.palette.graphics.PaletteDecoder;
-import com.sfc.sf2.palette.graphics.PaletteEncoder;
-import java.awt.Color;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
