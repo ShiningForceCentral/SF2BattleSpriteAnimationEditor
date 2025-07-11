@@ -9,7 +9,6 @@ import com.sfc.sf2.background.Background;
 import com.sfc.sf2.background.layout.BackgroundLayout;
 import com.sfc.sf2.battlesprite.BattleSprite;
 import com.sfc.sf2.battlesprite.animation.BattleSpriteAnimation;
-import com.sfc.sf2.battlesprite.layout.BattleSpriteLayout;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.ground.Ground;
 import com.sfc.sf2.ground.layout.GroundLayout;
@@ -18,9 +17,7 @@ import com.sfc.sf2.weaponsprite.layout.WeaponSpriteLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -28,9 +25,7 @@ import javax.swing.JPanel;
  * @author wiz
  */
 public class BattleSpriteAnimationLayout extends JPanel {
-    
-    private static final int DEFAULT_TILES_PER_ROW = 32;
-    
+        
     private static final int BACKGROUND_BASE_X = 0;
     private static final int BACKGROUND_BASE_Y = 56;
     private static final int GROUND_BASE_X = 136;
@@ -41,9 +36,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     private static final int BATTLESPRITE_ENEMY_BASE_Y = 56;
     private static final int WEAPONSPRITE_BASE_X = 136;
     private static final int WEAPONSPRITE_BASE_Y = 64;
-    
-    private int tilesPerRow = DEFAULT_TILES_PER_ROW;
-    
+        
     private Background background;
     private Ground ground;
     private BattleSprite battlesprite;
@@ -84,6 +77,7 @@ public class BattleSpriteAnimationLayout extends JPanel {
     public BufferedImage buildImage(boolean pngExport, boolean battlespriteOnly){
         
         Tile[] battlespriteImages = battlesprite.getFrames()[currentBattlespriteFrame];
+        int tilesPerRow = battlesprite.getTilesPerRow();
         BufferedImage image = new BufferedImage(256, 224, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         
@@ -112,24 +106,16 @@ public class BattleSpriteAnimationLayout extends JPanel {
     private void drawBattleSpriteFrame(Graphics graphics, Tile[] frameTiles, int xOffset, int yOffset, int tilesPerRow, Color[] palette) {
         
         for(int t = 0; t < frameTiles.length; t++) {
-            int x = (t%tilesPerRow)*8;
+            int x = (t%tilesPerRow)*8 + xOffset;
             int y = (t/tilesPerRow)*8 + yOffset;
             frameTiles[t].setPalette(palette);
-            graphics.drawImage(frameTiles[t].getImage(), x, y, null);
+            graphics.drawImage(frameTiles[t].getIndexedColorImage(), x, y, null);
         }
     }
     
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(getWidth(), getHeight());
-    }
-    
-    public int getTilesPerRow() {
-        return tilesPerRow;
-    }
-
-    public void setTilesPerRow(int tilesPerRow) {
-        this.tilesPerRow = tilesPerRow;
     }
 
     public void setBackground(Background background) {

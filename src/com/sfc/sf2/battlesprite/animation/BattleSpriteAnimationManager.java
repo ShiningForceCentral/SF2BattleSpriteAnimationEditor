@@ -8,14 +8,10 @@ package com.sfc.sf2.battlesprite.animation;
 import com.sfc.sf2.background.BackgroundManager;
 import com.sfc.sf2.battlesprite.BattleSprite;
 import com.sfc.sf2.battlesprite.BattleSpriteManager;
-import com.sfc.sf2.graphics.GraphicsManager;
-import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.battlesprite.animation.io.DisassemblyManager;
 import com.sfc.sf2.battlesprite.animation.io.PngManager;
 import com.sfc.sf2.ground.GroundManager;
-import com.sfc.sf2.palette.PaletteManager;
 import com.sfc.sf2.weaponsprite.WeaponSpriteManager;
-import java.awt.Color;
 
 /**
  *
