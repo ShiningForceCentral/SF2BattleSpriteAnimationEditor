@@ -52,7 +52,6 @@ public class BattleSpriteAnimationLayout extends JPanel {
     
     private BufferedImage backgroundImage = null;
     private BufferedImage groundImage = null;
-    private BufferedImage[] battlespriteImages = null;
     private BufferedImage[][] weaponspriteImages = null;
     
     private int currentDisplaySize = 1;
@@ -84,30 +83,41 @@ public class BattleSpriteAnimationLayout extends JPanel {
     
     public BufferedImage buildImage(boolean pngExport, boolean battlespriteOnly){
         
+        Tile[] battlespriteImages = battlesprite.getFrames()[currentBattlespriteFrame];
         BufferedImage image = new BufferedImage(256, 224, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         
         g.drawImage(backgroundImage, BACKGROUND_BASE_X, BACKGROUND_BASE_Y, null);
         g.drawImage(groundImage, GROUND_BASE_X, GROUND_BASE_Y, null);
         if(battlesprite.getType()==BattleSprite.TYPE_ENEMY){
-            g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ENEMY_BASE_X+currentFrameX, BATTLESPRITE_ENEMY_BASE_Y+currentFrameY, null);
+            drawBattleSpriteFrame(g, battlespriteImages, BATTLESPRITE_ENEMY_BASE_X+currentFrameX, BATTLESPRITE_ENEMY_BASE_Y+currentFrameY, tilesPerRow, battlespriteImages[0].getPalette());
         }else{
             int weaponFlip = 0 + (weaponHFlip?1:0) + (weaponVFlip?2:0);
             if(currentWeaponZ==2){
-                g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
+                drawBattleSpriteFrame(g, battlespriteImages, BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, tilesPerRow, battlespriteImages[0].getPalette());
                 if(!hideWeapon && weaponsprite!=null){
                     g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
                 }
             }else{
                 if(!hideWeapon && weaponsprite!=null){
                     g.drawImage(weaponspriteImages[weaponFlip][currentWeaponspriteFrame], WEAPONSPRITE_BASE_X+currentFrameX+currentWeaponX, WEAPONSPRITE_BASE_Y+currentFrameY+currentWeaponY, null);
-                } 
-                g.drawImage(battlespriteImages[currentBattlespriteFrame], BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, null);
+                }
+                drawBattleSpriteFrame(g, battlespriteImages, BATTLESPRITE_ALLY_BASE_X+currentFrameX, BATTLESPRITE_ALLY_BASE_Y+currentFrameY, tilesPerRow, battlespriteImages[0].getPalette());
             }
         }
         
         return resize(image);
-    }  
+    }
+    
+    private void drawBattleSpriteFrame(Graphics graphics, Tile[] frameTiles, int xOffset, int yOffset, int tilesPerRow, Color[] palette) {
+        
+        for(int t = 0; t < frameTiles.length; t++) {
+            int x = (t%tilesPerRow)*8;
+            int y = (t/tilesPerRow)*8 + yOffset;
+            frameTiles[t].setPalette(palette);
+            graphics.drawImage(frameTiles[t].getImage(), x, y, null);
+        }
+    }
     
     @Override
     public Dimension getPreferredSize() {
@@ -138,17 +148,6 @@ public class BattleSpriteAnimationLayout extends JPanel {
 
     public void setBattlesprite(BattleSprite battlesprite) {
         this.battlesprite = battlesprite;
-        generateBattlespriteImages();
-    }
-    
-    public void generateBattlespriteImages(){
-        BattleSpriteLayout battlespriteLayout = new BattleSpriteLayout();
-        battlespriteLayout.setBattlespriteType(battlesprite.getType());
-        battlespriteImages = new BufferedImage[battlesprite.getFrames().length];
-        for(int i=0;i<battlesprite.getFrames().length;i++){
-            battlespriteLayout.setTiles(battlesprite.getFrames()[i]);
-            battlespriteImages[i] = battlespriteLayout.buildImage();
-        }
     }
 
     public void setWeaponsprite(WeaponSprite weaponsprite) {
